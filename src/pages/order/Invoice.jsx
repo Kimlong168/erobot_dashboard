@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import convertToPhoneNumber from "../../utils/convertToPhoneNumber";
 import logo from "../../assets/images/logo.png";
-import aba from "../../assets/images/aba-us.jpg";
+import aba from "../../assets/images/aba-us.png";
 import { Link } from "react-router-dom";
 
 const Invoice = ({
@@ -183,10 +183,10 @@ const Invoice = ({
               />
               {/* company contact information */}
               <div className="flex flex-col justify-center items-center gap-3 text-sm text-gray-600">
-                <div className="font-bold text-center">SORA KHMER</div>
+                <div className="font-bold text-center">EROBOT</div>
                 <span>📞 {contact && contact.phoneNumber}</span>{" "}
                 <span>✉️ {contact && contact.email}</span>
-                <span>🌐 www.sorakhmer.com</span>
+                <span>🌐 www.erobotcambodia.org</span>
               </div>
             </div>
           </div>
