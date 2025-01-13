@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import logo from "../../assets/images/logo.png";
-import aba from "../../assets/images/aba-us.jpg";
+import aba from "../../assets/images/aba-us.png";
 import { DataContext } from "../../contexts/DataContext";
 import { UpdateContext } from "../../contexts/UpdateContext";
 import convertToPhoneNumber from "../../utils/convertToPhoneNumber";
