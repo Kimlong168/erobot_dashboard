@@ -1,0 +1,11 @@
+/* style the ckeditor component */
+
+
+.ck-editor__editable {
+    min-height: 300px;
+}
+
+#sidebar ::-webkit-scrollbar {
+    width: 0;
+}
+
