@@ -173,7 +173,7 @@ const CreateBlog = () => {
       <div className="text-gray-900  border-gray-700 rounded">
         {/* title */}
         <div className="text-center p-4 pt-0 font-bold text-3xl text-violet-600 underline uppercase">
-          Create Blog Post
+          Create Article
         </div>
         <br />
 

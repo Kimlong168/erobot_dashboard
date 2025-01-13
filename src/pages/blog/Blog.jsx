@@ -101,7 +101,7 @@ const Blog = () => {
     <Layout>
       <TableHead
         color="rgb(124,58,237)"
-        title={`Blogs (${blogList.length})`}
+        title={`Articles (${blogList.length})`}
         border="border-violet-600 text-violet-600"
         link="/createBlog"
       />

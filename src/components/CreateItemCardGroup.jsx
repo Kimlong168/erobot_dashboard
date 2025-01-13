@@ -42,7 +42,7 @@ const CreateItemCardGroup = () => {
         {/* create blog  */}
         <Link to="/createBlog">
           <CreateItemCard
-            title="Blog"
+            title="Article"
             color="bg-violet-500"
             icon={<FaBlog />}
           />
@@ -51,7 +51,7 @@ const CreateItemCardGroup = () => {
         {/* create blog category */}
         <Link to="/createBlogCategory">
           <CreateItemCard
-            title="Blog Category"
+            title="Article Category"
             color="bg-pink-500"
             icon={<BiCategoryAlt />}
           />
@@ -65,7 +65,7 @@ const CreateItemCardGroup = () => {
           />
         </Link>
 
-        {/* create member for blog post */}
+        {/* create member */}
         <Link to="/createMember">
           <CreateItemCard
             title="Member"

@@ -191,7 +191,7 @@ const Layout = (props) => {
                     <FaBlog />
                   </span>
                   <span className="ml-2 text-sm tracking-wide truncate">
-                    Blog
+                    Article
                   </span>
                 </Link>
               </li>
@@ -209,7 +209,7 @@ const Layout = (props) => {
                     <BiCategoryAlt />
                   </span>
                   <span className="ml-2 text-sm tracking-wide truncate">
-                    Blog category
+                    Article category
                   </span>
                 </Link>
               </li>

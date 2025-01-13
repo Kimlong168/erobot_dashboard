@@ -10,7 +10,7 @@ import { LuShoppingBasket } from "react-icons/lu";
 import { FaBlog } from "react-icons/fa6";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { PiFactory, PiImage, PiStorefront } from "react-icons/pi";
+import {  PiImage } from "react-icons/pi";
 import { TbCategory2 } from "react-icons/tb";
 import { useContext } from "react";
 import { DataContext } from "../contexts/DataContext";
@@ -58,15 +58,15 @@ const CardGroup = () => {
           numberOfItem={productCategoryList.length}
         />
         <Card
-          title="Blog"
-          subtitle="Manage blog"
+          title="Article"
+          subtitle="Manage article"
           href="/blog"
           Icon={FaBlog}
           numberOfItem={blogList.length}
         />
         <Card
-          title="Blog Category"
-          subtitle="Manage blog category"
+          title="Article Category"
+          subtitle="Manage article category"
           href="/blogCategory"
           Icon={TbCategory2}
           numberOfItem={blogCategoryList.length}
