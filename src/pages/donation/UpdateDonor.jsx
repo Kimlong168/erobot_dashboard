@@ -144,7 +144,9 @@ const UpdateDonor = () => {
             </select>
 
             {/* date input */}
-            <label className="font-bold text-xl">Date</label>
+            <label className="font-bold text-xl">
+              Date <RedStar />
+            </label>
             <input
               className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
               type="date"
@@ -156,7 +158,7 @@ const UpdateDonor = () => {
             {/* create donor button */}
             <button
               className="bg-gray-700 text-white font-bold p-2 mt-2 rounded"
-              onClick={donor.amount ? updateDonor : notify}
+              onClick={donor.amount && donor.date ? updateDonor : notify}
             >
               Update donor
             </button>

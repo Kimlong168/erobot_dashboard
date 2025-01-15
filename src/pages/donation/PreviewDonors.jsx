@@ -42,7 +42,7 @@ const PreviewDonors = ({ remove, donors, numberOfRecordsPerPage }) => {
               <td className="px-4 py-3">{index + 1}</td>
 
               <td className="px-4 py-3 min-w-[250px]">{item.name}</td>
-              <td className="px-4 py-3">{item.amount}</td>
+              <td className="px-4 py-3">{item.amount} $</td>
               <td className="px-4 py-3">{formatDate(item.date)}</td>
               <td className="px-4 py-3">{item.source}</td>
 

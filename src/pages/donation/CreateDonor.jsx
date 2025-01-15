@@ -10,7 +10,7 @@ import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
 import getCurrentDate from "../../utils/getCurrentDate";
-import ImportCSV from "./ImportCSV"
+import ImportCSV from "./ImportCSV";
 const CreateDonor = () => {
   const { setIsUpdated } = useContext(UpdateContext);
   const { setShowNotification } = useContext(DataContext);
@@ -33,11 +33,6 @@ const CreateDonor = () => {
   const postCollectionRef = collection(db, "donors");
 
   const createdonor = () => {
-    if (donor.amount === "") {
-      notify("Please fill all the required fields");
-
-      return;
-    }
     // add donor to firestore
     addDoc(postCollectionRef, {
       name: donor.name ? donor.name : "Anonymous",
@@ -106,7 +101,9 @@ const CreateDonor = () => {
             </select>
 
             {/* date input */}
-            <label className="font-bold text-xl">Date</label>
+            <label className="font-bold text-xl">
+              Date <RedStar />
+            </label>
             <input
               className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
               type="date"
@@ -119,9 +116,7 @@ const CreateDonor = () => {
             <button
               className="bg-gray-700 text-white font-bold p-2 mt-2 rounded"
               onClick={
-                donor.fullName !== "" && donor.profilePicture !== null
-                  ? createdonor
-                  : notify
+                donor.date !== "" && donor.amount !== "" ? createdonor : notify
               }
             >
               Create donor

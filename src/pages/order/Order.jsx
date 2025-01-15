@@ -15,6 +15,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { FaSearch } from "react-icons/fa";
 import { TbMathEqualLower } from "react-icons/tb";
 import Pagination from "./Pagination";
+import ExportToExcel from "../../components/ExportToExcel";
+import ExportToPDF from "../../components/ExportToPDF";
 
 const Order = () => {
   const { setIsUpdated } = useContext(UpdateContext);
@@ -245,6 +247,24 @@ const Order = () => {
     setSearchKeyword("");
   }, [priceRange, orderList]);
 
+  const dataToExport = orders.map((item, index) => {
+    return {
+      No: index + 1,
+      "Order ID": item.orderId,
+      Customer: item.fullName,
+      Address: item.address,
+      Phone: item.phoneNumber,
+      Contact: item.contactLink,
+      "Payment Method": item.paymentMethod,
+      Date: item.date,
+      Total: item.total,
+      Status: item.status,
+      Remark: item.message,
+      // to view the order
+      View: `https://dashboard.erobotkh.org/orderDetail/${item.id}`,
+    };
+  });
+
   return (
     <Layout>
       <TableHead
@@ -265,7 +285,7 @@ const Order = () => {
             setPriceRange(maxTotalPrice);
             setFilterDate("default");
           }}
-          className="px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded w-fit"
+          className="min-w-[110px] px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded w-fit"
         >
           Show all
         </button>
@@ -358,6 +378,17 @@ const Order = () => {
             <option value={orderList.length}>All per page</option>
           </select>
         )}
+
+        <div className="flex gap-2 w-full">
+          <ExportToExcel
+            data={dataToExport}
+            fileName={`Orders_${new Date().toLocaleDateString()}`}
+          />
+          <ExportToPDF
+            data={dataToExport}
+            fileName={`Orders_${new Date().toLocaleDateString()}`}
+          />
+        </div>
       </div>
 
       {/* result search for text */}

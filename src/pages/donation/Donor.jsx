@@ -111,7 +111,7 @@ const Donor = () => {
             setFilter("default");
             setSearchKeyword("");
           }}
-          className="min-w-[105px] w-fit px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded"
+          className="min-w-[110px] w-fit px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded"
         >
           Show all
         </button>

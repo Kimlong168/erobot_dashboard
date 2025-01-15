@@ -123,9 +123,10 @@ function App() {
 
     const fetchAllData = async () => {
       // fetch order data
-      const order = await getDocs(
-        query(orderCollectionRef, orderBy("timeStamp", "desc"))
-      );
+      // const order = await getDocs(
+      //   query(orderCollectionRef, orderBy("timeStamp", "desc"))
+      // );
+      const order = await getDocs(orderCollectionRef);
       setOrderList(order.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       // counter number of order that have beeen order today
