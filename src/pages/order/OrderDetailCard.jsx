@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useContext, useEffect, useRef, useState } from "react";
 import { useReactToPrint } from "react-to-print";
 import logo from "../../assets/images/logo.png";
-import aba from "../../assets/images/aba-us.png";
+// import aba from "../../assets/images/aba-us.png";
 import { DataContext } from "../../contexts/DataContext";
 import { UpdateContext } from "../../contexts/UpdateContext";
 import convertToPhoneNumber from "../../utils/convertToPhoneNumber";
@@ -203,12 +203,10 @@ const OrderDetailCard = ({
                 Email:
               </label>
               <p className="font-medium  hover:text-blue-600">
-                <Link to={`mailto:${email}`}>
-                 {email}
-                </Link>
+                <Link to={`mailto:${email}`}>{email}</Link>
               </p>
             </div>
-            
+
             {/* contact link */}
             {!isPrint && (
               <div className="flex flex-col gap-1">
@@ -355,19 +353,14 @@ const OrderDetailCard = ({
                   <img src={logo} className="w-[100px]" alt="" />
                 </div> */}
 
-                {/* aba qr code */}
-                <img
-                  src={aba}
-                  alt="qr-code
-              "
-                  className="w-40 h-40"
-                />
                 {/* company contact information */}
                 <div className="flex flex-col justify-center items-center gap-3 text-sm text-gray-600">
-                  <div className="font-bold text-center">SORA KHMER</div>
+                  <div className="font-bold text-center">
+                    ERobot - Thank You!
+                  </div>
                   <span>📞 {contact && contact.phoneNumber}</span>{" "}
                   <span>✉️ {contact && contact.email}</span>
-                  <span>🌐 www.sorakhmer.com</span>
+                  <span>🌐 www.erobotcambodia.org</span>
                 </div>
               </div>
             )}
