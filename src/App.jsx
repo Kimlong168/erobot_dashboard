@@ -60,7 +60,6 @@ import ProjectDetail from "./pages/project/ProjectDetail";
 import Donor from "./pages/donation/Donor";
 import CreateDonor from "./pages/donation/CreateDonor";
 import UpdateDonor from "./pages/donation/UpdateDonor";
-
 function App() {
   // state
   const [theme, setTheme] = useState(

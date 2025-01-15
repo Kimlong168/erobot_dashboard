@@ -169,7 +169,7 @@ const Gallery = () => {
 
       <TableHead
         color="rgb(88,28,135)"
-        title={`Guest Images (${guestImageList.length})`}
+        title={`Event Images (${guestImageList.length})`}
         border="border-purple-800 text-purple-900"
         link="/createGuestImage"
       />

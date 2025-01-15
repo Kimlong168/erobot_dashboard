@@ -11,6 +11,9 @@ import { FaSquareMinus } from "react-icons/fa6";
 import { FaEye, FaPrint, FaSearch } from "react-icons/fa";
 import { useReactToPrint } from "react-to-print";
 import Invoice from "./Invoice";
+// import QRCode from "qrcode";
+// import { BakongKHQR, khqrData, IndividualInfo } from "bakong-khqr";
+
 const CreateInvoice = () => {
   const { productList, productCategoryList } = useContext(DataContext);
   const contentToPrint = useRef(null);
@@ -23,6 +26,8 @@ const CreateInvoice = () => {
     date: getCurrentDate(),
     remark: "",
     orderItems: [],
+    qrCode: "",
+    deepLink: "",
   });
   // const [invoice.orderItems, setInvoice.OrderItems] = useState([]);
   const [isPrint, setIsPrint] = useState(false);
@@ -30,6 +35,93 @@ const CreateInvoice = () => {
   const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("default");
   const [searchKeyword, setSearchKeyword] = useState("");
+
+  // const generateQrcode = async (e) => {
+  //   e.preventDefault();
+  //   setIsPreview((prev) => !prev);
+  //   // setStatus(false);
+  //   if (!invoice.totalPrice) {
+  //     alert("Please input amount!");
+  //     return;
+  //   }
+
+  //   // check if amount is string or number
+  //   if (isNaN(parseFloat(invoice.totalPrice))) {
+  //     alert("Amount must be a number!");
+  //     return;
+  //   }
+
+  //   const optionalData = {
+  //     currency: khqrData.currency.usd,
+  //     amount: 1,
+  //     mobileNumber: "85586961256",
+  //     storeLabel: "Coffee Shop",
+  //     terminalLabel: "Cashier_2",
+  //     purposeOfTransaction: "oversea",
+  //     languagePreference: "km",
+  //     merchantNameAlternateLanguage: "Kimlong Chann",
+  //     merchantCityAlternateLanguage: "ភ្នំពេញ",
+  //     // upiMerchantAccount: "0001034400010344ABCDEFGHJIKLMNO",
+  //   };
+
+  //   const individualInfo = new IndividualInfo(
+  //     "kimlong_chann@aclb",
+  //     "Kimlong Chann",
+  //     "PHNOM PENH",
+  //     optionalData
+  //   );
+
+  //   console.log("individualInfo", individualInfo);
+  //   console.log("khqrData.currency.usd", khqrData.currency.usd);
+
+  //   const khqr = new BakongKHQR();
+  //   console.log("KHQR", khqr);
+  //   const individual = khqr.generateIndividual(individualInfo);
+  //   console.log("qrcode", individual);
+
+  //   const qrcode = await QRCode.toDataURL(individual?.data.qr);
+  //   setInvoice((prev) => ({ ...prev, qrCode: qrcode }));
+  //   localStorage.setItem("md5", individual.data.md5); // Store in localStorage
+
+  //   //   const optionalData = {
+  //   //     currency: khqrData.currency.khr,
+  //   //     amount: 100000,
+  //   //     billNumber: "#0001",
+  //   //     mobileNumber: "85587575857",
+  //   //     storeLabel: "Devit Huotkeo",
+  //   //     terminalLabel: "Devit I",
+  //   // };
+
+  //   // const individualInfo = new IndividualInfo(
+  //   //     "devit@abaa",
+  //   //     khqrData.currency.khr,
+  //   //     "devit",
+  //   //     "Battambang",
+  //   //     optionalData
+  //   // );
+
+  //   // const khqr = new BakongKHQR();
+
+  //   // deep link
+
+  //   // const url = "https://api-bakong.nbc.gov.kh/v1/generate_deeplink_by_qr"; // Replace with your API URL
+  //   // const khqrString = individual?.data.qr; // Replace with the QR data
+  //   // const sourceInfo = new SourceInfo(
+  //   //   "https://kimlongchann.vercel.app/logo.png",
+  //   //   "Kimlong Chann App",
+  //   //   "https://kimlongchann.vercel.app/"
+  //   // );
+
+  //   // const deeplink = BakongKHQR.generateDeepLink(url, khqrString, sourceInfo);
+  //   // deeplink.then((data) => {
+  //   //   if (data.status.code == 0) {
+  //   //     console.log(data.data.shortLink);
+  //   //     setInvoice((prev) => ({ ...prev, deepLink: data.data.shortLink }));
+  //   //   } else {
+  //   //     console.log(data.status.message);
+  //   //   }
+  //   // });
+  // };
 
   // generate order id
   useEffect(() => {
@@ -493,21 +585,25 @@ const CreateInvoice = () => {
                                 <td className="px-4 py-3">{item.price} $</td>
                                 <td className="px-4 py-3">
                                   {isSelected ? (
-                                    <button
+                                    <div
+                                      className="cursor-pointer"
                                       onClick={() => handleRemoveItem(item.id)}
                                     >
                                       <MdLibraryAddCheck
                                         size={26}
                                         className="text-green-500 hover:text-green-700"
                                       />
-                                    </button>
+                                    </div>
                                   ) : (
-                                    <button onClick={() => handleAddItem(item)}>
+                                    <div
+                                      className="cursor-pointer"
+                                      onClick={() => handleAddItem(item)}
+                                    >
                                       <MdLibraryAdd
                                         size={26}
                                         className="text-blue-500 hover:text-blue-700"
                                       />
-                                    </button>
+                                    </div>
                                   )}
                                 </td>
                               </tr>
@@ -524,7 +620,13 @@ const CreateInvoice = () => {
             {/* print and preview */}
             <div className="flex items-center justify-end mt-4 gap-4">
               <button
-                onClick={() => setIsPreview((prev) => !prev)}
+                onClick={() => {
+                  setIsPreview((prev) => !prev);
+
+                  // if (!isPreview) {
+                  //   generateQrcode(e);
+                  // }
+                }}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold p-2 mt-2 rounded flex justify-center items-center gap-3"
               >
                 <FaEye /> <span>{isPreview && "Close"} Preview</span>

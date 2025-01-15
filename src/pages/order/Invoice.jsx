@@ -4,8 +4,9 @@ import { useContext } from "react";
 import { DataContext } from "../../contexts/DataContext";
 import convertToPhoneNumber from "../../utils/convertToPhoneNumber";
 import logo from "../../assets/images/logo.png";
-import aba from "../../assets/images/aba-us.png";
+// import aba from "../../assets/images/aba-us.png";
 import { Link } from "react-router-dom";
+// import axios from "axios";
 
 const Invoice = ({
   orderId,
@@ -16,10 +17,12 @@ const Invoice = ({
   remark,
   orderItems,
   totalPrice,
+  qrCode,
+  deepLink,
 }) => {
   const { contactList } = useContext(DataContext);
   const contact = contactList[0];
-
+  console.log(qrCode, deepLink);
   return (
     <div
       className="min-h-[794px] w-[558px] max-w-3xl mx-auto bg-white"
@@ -175,15 +178,25 @@ const Invoice = ({
                   </div> */}
 
               {/* aba qr code */}
-              <img
-                src={aba}
-                alt="qr-code
+              {/* <div>
+                <img
+                  src={qrCode}
+                  alt="qr-code
                 "
-                className="w-40 h-40"
-              />
+                  className="w-40 h-40"
+                />
+                {deepLink && (
+                  <Link
+                    to={deepLink}
+                    className="text-blue-400 hover:text-blue-600 hover:underline"
+                  >
+                    Click here to pay in Bakong Mobile App
+                  </Link>
+                )}
+              </div> */}
               {/* company contact information */}
               <div className="flex flex-col justify-center items-center gap-3 text-sm text-gray-600">
-                <div className="font-bold text-center">EROBOT</div>
+                <div className="font-bold text-center">ERobot - Thank You!</div>
                 <span>📞 {contact && contact.phoneNumber}</span>{" "}
                 <span>✉️ {contact && contact.email}</span>
                 <span>🌐 www.erobotcambodia.org</span>
@@ -217,6 +230,8 @@ Invoice.propTypes = {
   totalPrice: PropTypes.number,
   remark: PropTypes.string,
   orderItems: PropTypes.array,
+  deepLink: PropTypes.string,
+  qrCode: PropTypes.string,
 };
 
 export default Invoice;
