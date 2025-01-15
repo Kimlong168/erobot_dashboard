@@ -46,7 +46,7 @@ const DonationByStatus = () => {
 
   return (
     <div className="w-full min-h-full ">
-      <div id="chart" className="mt-12">
+      <div id="chart" className="mt-4">
         <ReactApexChart
           options={state.options}
           series={state.series}

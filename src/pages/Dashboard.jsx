@@ -42,12 +42,12 @@ const Dashboard = () => {
             // { name: "Total Product Sold", amount: data.total_products_sold },
           ]}
         />
-        <div className="flex flex-col lg:flex-row gap-4 mb-12">
+        <div className="flex flex-col lg:flex-row gap-4 my-4 bg-white border rounded-lg p-4">
           {" "}
           <OrderChartByMonth />
           <DonationChartByMonth />
         </div>
-        <div className="flex flex-col lg:flex-row gap-4 mb-12">
+        <div className="flex flex-col lg:flex-row gap-4 mt-4 mb-8 bg-white border rounded-lg p-4">
           {" "}
           <OrderByStatus /> <DonationByStatus />
         </div>
