@@ -10,6 +10,7 @@ import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
 import getCurrentDate from "../../utils/getCurrentDate";
+import ImportCSV from "./ImportCSV"
 const CreateDonor = () => {
   const { setIsUpdated } = useContext(UpdateContext);
   const { setShowNotification } = useContext(DataContext);
@@ -19,6 +20,7 @@ const CreateDonor = () => {
     source: "socialMedia",
     date: getCurrentDate(),
   });
+  const [importedData, setImportedData] = useState([]);
 
   // handle onChange event for input
   const handleOnChange = (e) => {
@@ -132,6 +134,11 @@ const CreateDonor = () => {
             <ButtonBack link="/donor" />
           </div>
         </div>
+      </div>
+
+      <div>
+        {" "}
+        <ImportCSV setData={setImportedData} data={importedData} />
       </div>
     </Layout>
   );

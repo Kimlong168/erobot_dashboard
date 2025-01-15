@@ -11,6 +11,9 @@ import LoadingInTable from "../../components/LoadingInTable";
 import { DataContext } from "../../contexts/DataContext";
 import { FaSearch } from "react-icons/fa";
 import Pagination from "./Pagination";
+import ExportToExcel from "../../components/ExportToExcel";
+import ExportToPDF from "../../components/ExportToPDF";
+
 const Donor = () => {
   const { donorList, setShowNotification } = useContext(DataContext);
   const { setIsUpdated } = useContext(UpdateContext);
@@ -20,6 +23,7 @@ const Donor = () => {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isSearched, setIsSearched] = useState(false);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
+
   // search
   const handleSearch = (e) => {
     e.preventDefault();
@@ -80,6 +84,16 @@ const Donor = () => {
     );
   };
 
+  const dataToExport = donors.map((donor, index) => {
+    return {
+      No: index + 1,
+      Name: donor.name,
+      Amount: donor.amount,
+      Date: donor.date,
+      Source: donor.source,
+    };
+  });
+
   return (
     <Layout>
       <TableHead
@@ -89,7 +103,7 @@ const Donor = () => {
         link="/createDonor"
       />
       {/* search, sort and filter component */}
-      <div className="flex flex-col lg:flex-row items-center  gap-6 mb-4">
+      <div className="flex flex-col lg:flex-row items-center gap-6 mb-4">
         {/* show all donor button */}
         <button
           onClick={() => {
@@ -97,7 +111,7 @@ const Donor = () => {
             setFilter("default");
             setSearchKeyword("");
           }}
-          className="px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded w-fit"
+          className="min-w-[105px] w-fit px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded"
         >
           Show all
         </button>
@@ -155,6 +169,17 @@ const Donor = () => {
             <option value={donorList.length}>All per page</option>
           </select>
         )}
+
+        <div className="flex gap-2 w-full">
+          <ExportToExcel
+            data={dataToExport}
+            fileName={`Donors_${new Date().toLocaleDateString()}`}
+          />
+          <ExportToPDF
+            data={dataToExport}
+            fileName={`Donors_${new Date().toLocaleDateString()}`}
+          />
+        </div>
       </div>
 
       {/* result search for text */}
