@@ -123,51 +123,6 @@ const CreateBlog = () => {
     });
   };
 
-  // const handleImageRemove = (imagesInContent) => {
-  //   // imagesSrc is an array of URLs of the images being removed
-
-  //   const imageUrls = imagesInContent.map((imgTag) => {
-  //     const match = imgTag.match(/src="([^"]+)"/);
-  //     return match ? match[1] : null;
-  //   });
-
-  //   imageUrls.forEach((imageUrl) => {
-  //     // Get the corresponding image reference from the state
-  //     // const imageRef = imageReferences[imageUrl];
-  //     const imageRef = true;
-
-  //     if (!imageRef) {
-  //       // Delete the image from Firebase Storage
-  //       deleteObject(imageRef)
-  //         .then(() => {
-  //           console.log("Image deleted from storage:", imageUrl);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error deleting image from storage:", error);
-  //         });
-  //     }
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   // Clean up imageReferences when the component unmounts
-  //   return () => {
-  //     Object.values(imageReferences).forEach((imageRef) => {
-  //       // Delete any remaining images from Firebase Storage
-  //       deleteObject(imageRef)
-  //         .then(() => {
-  //           console.log("Image deleted from storage during cleanup");
-  //         })
-  //         .catch((error) => {
-  //           console.error(
-  //             "Error deleting image from storage during cleanup:",
-  //             error
-  //           );
-  //         });
-  //     });
-  //   };
-  // }, [imageReferences]);
-
   return (
     <Layout>
       <div className="text-gray-900  border-gray-700 rounded">

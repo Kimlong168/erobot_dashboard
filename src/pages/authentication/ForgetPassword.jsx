@@ -10,7 +10,7 @@ const ForgetPassword = () => {
   //   let navigate = useNavigate();
   // continue url after verify email
   var actionCodeSettings = {
-    url: "https://sorakhmer-admin.netlify.app/login",
+    url: "https://erobot-dashboard.vercel.app/login",
     handleCodeInApp: true,
   };
 
@@ -45,7 +45,7 @@ const ForgetPassword = () => {
   return (
     <div>
       <div className="m-4 sm:m-0">
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-12 mb-4">
           <img className="w-[100px] sm:w-[200px]" src={logo} alt="logo" />
         </div>
         <div className="max-w-lg mx-auto mb-10 bg-white p-8 pt-0 rounded-xl shadow-xl shadow-slate-300">

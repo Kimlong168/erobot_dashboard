@@ -9,3 +9,11 @@
     width: 0;
 }
 
+button {
+    border: 3px solid transparent;
+}
+
+button:hover {
+    border: 3px solid green;
+    background-color: rgb(38, 165, 38);
+}

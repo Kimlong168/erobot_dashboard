@@ -23,8 +23,8 @@ const ToggleLightDarkMode = () => {
 const SliderToggle = ({ selected, setSelected, handleThemeSwitch }) => {
   return (
     <div className="relative flex w-fit items-center rounded-full">
-      <button
-        className={`${TOGGLE_CLASSES} ${
+      <div
+        className={`cursor-pointer ${TOGGLE_CLASSES} ${
           selected === "light" ? "text-white" : "text-slate-300"
         }`}
         onClick={() => {
@@ -34,9 +34,9 @@ const SliderToggle = ({ selected, setSelected, handleThemeSwitch }) => {
       >
         <FiMoon className="relative z-10 text-sm " />
         <span className="relative z-10 hidden md:block">Light</span>
-      </button>
-      <button
-        className={`${TOGGLE_CLASSES} ${
+      </div>
+      <div
+        className={`cursor-pointer ${TOGGLE_CLASSES} ${
           selected === "dark" ? "text-white" : "text-white"
         }`}
         onClick={() => {
@@ -46,7 +46,7 @@ const SliderToggle = ({ selected, setSelected, handleThemeSwitch }) => {
       >
         <FiSun className="relative z-10 text-sm " />
         <span className="relative z-10 hidden md:block">Dark</span>
-      </button>
+      </div>
       <div
         className={`absolute inset-0 z-0 flex ${
           selected === "dark" ? "justify-end" : "justify-start"

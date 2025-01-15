@@ -2,11 +2,16 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FiUser, FiUsers } from "react-icons/fi";
-import { FaAward, FaBlog, FaFileInvoice } from "react-icons/fa";
+import {
+  FaAward,
+  FaBlog,
+  FaFileInvoice,
+  FaProjectDiagram,
+} from "react-icons/fa";
 import { TiShoppingCart } from "react-icons/ti";
 import { FaSteamSymbol } from "react-icons/fa";
 import { AiFillPlusCircle } from "react-icons/ai";
-import { PiFactory, PiImage, PiStorefront } from "react-icons/pi";
+import { PiImage } from "react-icons/pi";
 
 // all the CreateItemCards in the dashboard
 const CreateItemCardGroup = () => {
@@ -56,6 +61,16 @@ const CreateItemCardGroup = () => {
             icon={<BiCategoryAlt />}
           />
         </Link>
+
+        {/* create blog  */}
+        <Link to="/createProject">
+          <CreateItemCard
+            title="Project"
+            color="bg-violet-500"
+            icon={<FaProjectDiagram />}
+          />
+        </Link>
+
         {/* create author for blog post */}
         <Link to="/createAuthor">
           <CreateItemCard
@@ -69,6 +84,15 @@ const CreateItemCardGroup = () => {
         <Link to="/createMember">
           <CreateItemCard
             title="Member"
+            color="bg-blue-500"
+            icon={<FiUsers />}
+          />
+        </Link>
+
+        {/* create member */}
+        <Link to="/createDonor">
+          <CreateItemCard
+            title="Donor"
             color="bg-blue-500"
             icon={<FiUsers />}
           />

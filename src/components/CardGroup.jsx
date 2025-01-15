@@ -5,12 +5,12 @@ import {
   FiMail,
   FiUser,
 } from "react-icons/fi";
-import { FaSteamSymbol } from "react-icons/fa";
+import { FaProjectDiagram, FaSteamSymbol } from "react-icons/fa";
 import { LuShoppingBasket } from "react-icons/lu";
 import { FaBlog } from "react-icons/fa6";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import {  PiImage } from "react-icons/pi";
+import { PiImage } from "react-icons/pi";
 import { TbCategory2 } from "react-icons/tb";
 import { useContext } from "react";
 import { DataContext } from "../contexts/DataContext";
@@ -20,8 +20,10 @@ const CardGroup = () => {
     productList,
     blogCategoryList,
     blogList,
+    projectList,
     authorList,
     memberList,
+    donorList,
     awardList,
     partnerList,
     galleryList,
@@ -72,6 +74,13 @@ const CardGroup = () => {
           numberOfItem={blogCategoryList.length}
         />
         <Card
+          title="Project"
+          subtitle="Manage project"
+          href="/project"
+          Icon={FaProjectDiagram}
+          numberOfItem={projectList.length}
+        />
+        <Card
           title="Author"
           subtitle="Manage author"
           href="/author"
@@ -84,6 +93,13 @@ const CardGroup = () => {
           href="/member"
           Icon={FiUsers}
           numberOfItem={memberList.length}
+        />
+        <Card
+          title="Donor"
+          subtitle="Manage donor"
+          href="/donor"
+          Icon={FiUsers}
+          numberOfItem={donorList.length}
         />
         <Card
           title="Award"

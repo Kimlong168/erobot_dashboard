@@ -52,6 +52,14 @@ import CreateInvoice from "./pages/order/CreateInvoice";
 import Member from "./pages/member/Member";
 import CreateMember from "./pages/member/CreateMember";
 import UpdateMember from "./pages/member/UpdateMember";
+import Project from "./pages/project/Project";
+import CreateProject from "./pages/project/CreateProject";
+import UpdateProject from "./pages/project/UpdateProject";
+import ProjectDetail from "./pages/project/ProjectDetail";
+
+import Donor from "./pages/donation/Donor";
+import CreateDonor from "./pages/donation/CreateDonor";
+import UpdateDonor from "./pages/donation/UpdateDonor";
 
 function App() {
   // state
@@ -82,8 +90,10 @@ function App() {
   const [productList, setProductList] = useState([]);
   const [blogCategoryList, setBlogCategoryList] = useState([]);
   const [blogList, setBlogList] = useState([]);
+  const [projectList, setProjectList] = useState([]);
   const [authorList, setAuthorList] = useState([]);
   const [memberList, setMemberList] = useState([]);
+  const [donorList, setDonorList] = useState([]);
   const [partnerList, setPartnerList] = useState([]);
   const [awardList, setAwardList] = useState([]);
   const [contactList, setContactList] = useState([]);
@@ -98,9 +108,11 @@ function App() {
     const productCollectionRef = collection(db, "products");
     const productCategoryCollectionRef = collection(db, "product_category");
     const blogCollectionRef = collection(db, "blogs");
+    const projectCollectionRef = collection(db, "projects");
     const blogCategoryCollectionRef = collection(db, "blog_category");
     const authorCollectionRef = collection(db, "authors");
     const memberCollectionRef = collection(db, "members");
+    const donorCollectionRef = collection(db, "donors");
     const partnerCollectionRef = collection(db, "partners");
     const awardCollectionRef = collection(db, "awards");
     const contactCollectionRef = collection(db, "contact");
@@ -157,6 +169,14 @@ function App() {
       );
       setBlogList(blogs.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
+      //fetch data of blog
+      const projects = await getDocs(
+        query(projectCollectionRef, orderBy("status", "desc"))
+      );
+      setProjectList(
+        projects.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+
       //fetch data of blog category
       const blogCategory = await getDocs(blogCategoryCollectionRef);
       setBlogCategoryList(
@@ -170,6 +190,10 @@ function App() {
       //fetch data of member
       const member = await getDocs(memberCollectionRef);
       setMemberList(member.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+      //fetch data of member
+      const donor = await getDocs(donorCollectionRef);
+      setDonorList(donor.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       //fetch data of partner
       const partner = await getDocs(
@@ -268,9 +292,11 @@ function App() {
                 productList,
                 blogCategoryList,
                 blogList,
+                projectList,
                 contactList,
                 authorList,
                 memberList,
+                donorList,
                 awardList,
                 partnerList,
                 galleryList,
@@ -290,10 +316,8 @@ function App() {
                   {/* -------------error 404 route------------- */}
                   {/* delay 1s before showing the error404 page */}
                   <Route path="*" element={<Error404 />} />
-
                   {/* -------------dashboard route------------- */}
                   <Route path="/" element={<Dashboard />} />
-
                   {/* -------------product route------------- */}
                   {/* product */}
                   <Route path="/product" element={<Product />} />
@@ -311,7 +335,6 @@ function App() {
                   <Route path="/createProduct" element={<CreateProduct />} />
                   {/* update product */}
                   <Route path="/updateProduct" element={<UpdateProduct />} />
-
                   {/* -------------product category route------------- */}
                   {/* product category */}
                   <Route
@@ -337,11 +360,9 @@ function App() {
                   <Route path="/updateBlog/:id" element={<UpdateBlog />} />
                   {/* create blog */}
                   <Route path="/createBlog" element={<CreateBlog />} />
-
                   {/* -------------blog category route------------- */}
                   {/* blog category */}
                   <Route path="/blogCategory" element={<BlogCategory />} />
-
                   {/*create blog category */}
                   <Route
                     path="/createBlogCategory"
@@ -352,7 +373,6 @@ function App() {
                     path="/updateBlogCategory/:id"
                     element={<UpdateBlogCategory />}
                   />
-
                   {/* -------------Author route------------- */}
                   {/* author */}
                   <Route path="/author" element={<Author />} />
@@ -360,7 +380,6 @@ function App() {
                   <Route path="/createAuthor" element={<CreateAuthor />} />
                   {/* update author */}
                   <Route path="/updateAuthor/:id" element={<UpdateAuthor />} />
-
                   {/* -------------Member route------------- */}
                   {/* author */}
                   <Route path="/member" element={<Member />} />
@@ -368,7 +387,6 @@ function App() {
                   <Route path="/createMember" element={<CreateMember />} />
                   {/* update author */}
                   <Route path="/updateMember/:id" element={<UpdateMember />} />
-
                   {/* -------------Company partners route------------- */}
                   {/* company partners */}
                   <Route path="/partner" element={<Partners />} />
@@ -379,7 +397,6 @@ function App() {
                     path="/updatePartner/:id"
                     element={<UpdatePartner />}
                   />
-
                   {/* -------------Company award route------------- */}
                   {/* company award */}
                   <Route path="/award" element={<Award />} />
@@ -387,7 +404,6 @@ function App() {
                   <Route path="/createAward" element={<CreateAward />} />
                   {/* update company award */}
                   <Route path="/updateAward/:id" element={<UpdateAward />} />
-
                   {/* -------------Company Contact data route------------- */}
                   {/* contact data */}
                   <Route path="/contact" element={<Contact />} />
@@ -398,7 +414,6 @@ function App() {
                     path="/updateContact/:id"
                     element={<UpdateContact />}
                   />
-
                   {/* -------------gallery route------------- */}
                   {/*  gallery*/}
                   <Route path="/gallery" element={<Gallery />} />
@@ -409,7 +424,6 @@ function App() {
                     path="/updateGallery/:id"
                     element={<UpdateGallery />}
                   />
-
                   {/* -------------guest image route------------- */}
                   {/*  guest image*/}
                   <Route
@@ -421,7 +435,6 @@ function App() {
                     path="/updateGuestImage/:id"
                     element={<UpdateGuestImage />}
                   />
-
                   {/* -------------user route------------- */}
                   {/* user */}
                   <Route path="/admin" element={<Admin />} />
@@ -429,7 +442,6 @@ function App() {
                   <Route path="/createAdmin" element={<CreateAdmin />} />
                   {/* update user */}
                   {/* <Route path="/updateAdmin/:id" element={<UpdateAdmin />} /> */}
-
                   {/* -------------order route------------- */}
                   {/* order */}
                   <Route path="/order" element={<Order />} />
@@ -437,6 +449,28 @@ function App() {
                   <Route path="/orderDetail/:id" element={<OrderDetail />} />
                   {/* create invoice */}
                   <Route path="/createInvoice" element={<CreateInvoice />} />
+                  {/* -------------project route------------- */}
+                  {/* project */}
+                  <Route path="/project" element={<Project />} />
+                  {/* project detail */}
+                  <Route
+                    path="/projectDetail/:id"
+                    element={<ProjectDetail />}
+                  />
+                  {/* create project */}
+                  <Route path="/createProject" element={<CreateProject />} />
+                  {/* update project */}
+                  <Route
+                    path="/updateProject/:id"
+                    element={<UpdateProject />}
+                  />{" "}
+                  {/* -------------donor route------------- */}
+                  {/* donor */}
+                  <Route path="/donor" element={<Donor />} />
+                  {/* create donor */}
+                  <Route path="/createDonor" element={<CreateDonor />} />
+                  {/* update donor */}
+                  <Route path="/updateDonor/:id" element={<UpdateDonor />} />
                 </Routes>
               </Router>
             </DataContext.Provider>

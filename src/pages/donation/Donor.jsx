@@ -7,69 +7,66 @@ import { toastProps } from "../../utils/toastProp";
 import DeletingAlertBox from "../../components/DeletingAlertBox";
 import deleteItemFucntion from "../../lib/deleteItemFunction";
 import { UpdateContext } from "../../contexts/UpdateContext";
-import { deleteObject, ref } from "firebase/storage";
-import { storage } from "../../firebase-config";
 import LoadingInTable from "../../components/LoadingInTable";
 import { DataContext } from "../../contexts/DataContext";
 import { FaSearch } from "react-icons/fa";
 import Pagination from "./Pagination";
-const Blog = () => {
-  const { blogList, blogCategoryList, setShowNotification } =
-    useContext(DataContext);
+const Donor = () => {
+  const { donorList, setShowNotification } = useContext(DataContext);
   const { setIsUpdated } = useContext(UpdateContext);
 
-  const [blogs, setBlogs] = useState(blogList);
+  const [donors, setDonors] = useState(donorList);
   const [filter, setFilter] = useState("default");
   const [searchKeyword, setSearchKeyword] = useState("");
   const [isSearched, setIsSearched] = useState(false);
   const [recordsPerPage, setRecordsPerPage] = useState(5);
-  // search blog
+  // search
   const handleSearch = (e) => {
     e.preventDefault();
     setFilter("default");
-    let searchedBlog = [];
+    let searchedDonor = [];
 
-    searchedBlog = blogList.filter((blog) =>
-      blog.title.toLowerCase().includes(searchKeyword.toLowerCase().trim())
+    searchedDonor = donorList.filter((item) =>
+      item.name.toLowerCase().includes(searchKeyword.toLowerCase().trim())
     );
 
-    setBlogs(searchedBlog);
+    setDonors(searchedDonor);
     setIsSearched(true);
   };
 
-  //  filter base on category and status
+  //  filter base source
   useEffect(() => {
-    let filteredBlog = [];
+    let filteredItem = [];
     if (filter === "default") {
-      filteredBlog = blogList;
-    } else if (filter == "active") {
-      filteredBlog = blogList.filter((blog) => blog.isActive);
-    } else if (filter == "inactive") {
-      filteredBlog = blogList.filter((blog) => !blog.isActive);
+      filteredItem = donorList;
+    } else if (filter == "website") {
+      filteredItem = donorList.filter((donor) => donor.source === "website");
+    } else if (filter == "socialMedia") {
+      filteredItem = donorList.filter(
+        (donor) => donor.source === "socialMedia"
+      );
     } else {
-      filteredBlog = blogList.filter((blog) => blog.categoryId === filter);
+      filteredItem = donorList.filter((donor) => donor.source === "other");
     }
-    setBlogs(filteredBlog);
+    setDonors(filteredItem);
     setIsSearched(false);
     setSearchKeyword("");
-  }, [filter, blogList]);
+  }, [filter, donorList]);
 
-  // delete Blog notify
-  const notifyDeleting = (id, coverImageId) => {
+  // delete donor notify
+  const notifyDeleting = (id) => {
     toast.error(
       <>
         <DeletingAlertBox
           deleteItemFucntion={() => {
-            deleteItemFucntion(id, "blogs")
+            deleteItemFucntion(id, "donors")
               .then((result) => {
                 // call delete image function
                 if (result) {
-                  deleteImageFromStorage(coverImageId);
-
                   // show deleted success notification
                   setShowNotification({
                     status: true,
-                    item: "blog",
+                    item: "donor",
                     action: "deleted",
                   });
                 }
@@ -83,34 +80,20 @@ const Blog = () => {
     );
   };
 
-  const deleteImageFromStorage = (coverImageId) => {
-    // delete image from firebase storage
-    const storageRef = ref(storage, `blogCoverImages/${coverImageId}`);
-    deleteObject(storageRef)
-      .then(() => {
-        // File deleted successfully
-        console.log("blog cover image deleted successfully");
-      })
-      .catch((error) => {
-        // Uh-oh, an error occurred!
-        console.log(error);
-      });
-  };
-
   return (
     <Layout>
       <TableHead
         color="rgb(124,58,237)"
-        title={`Articles (${blogList.length})`}
+        title={`Donor (${donorList.length})`}
         border="border-violet-600 text-violet-600"
-        link="/createBlog"
+        link="/createDonor"
       />
       {/* search, sort and filter component */}
       <div className="flex flex-col lg:flex-row items-center  gap-6 mb-4">
-        {/* show all blog button */}
+        {/* show all donor button */}
         <button
           onClick={() => {
-            setBlogs(blogList);
+            setDonors(donorList);
             setFilter("default");
             setSearchKeyword("");
           }}
@@ -148,18 +131,14 @@ const Blog = () => {
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
         >
-          <option value="default">All Categories</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          {blogCategoryList.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.categoryName}
-            </option>
-          ))}
+          <option value="default">All Sources</option>
+          <option value="website">Website</option>
+          <option value="socialMedia">Social Media</option>
+          <option value="other">Other</option>
         </select>
 
         {/* update record per page */}
-        {blogList && blogList.length > 5 && (
+        {donorList && donorList.length > 5 && (
           <select
             onChange={(e) => setRecordsPerPage(e.target.value)}
             name="recordsPerPage"
@@ -167,13 +146,13 @@ const Blog = () => {
           >
             <option value="5">5 per page</option>
             <option value="10">10 per page</option>
-            {blogList.length >= 25 && <option value="25">25 per page</option>}
-            {blogList.length >= 50 && <option value="50">50 per page</option>}
-            {blogList.length >= 75 && <option value="75">75 per page</option>}
-            {blogList.length >= 100 && (
+            {donorList.length >= 25 && <option value="25">25 per page</option>}
+            {donorList.length >= 50 && <option value="50">50 per page</option>}
+            {donorList.length >= 75 && <option value="75">75 per page</option>}
+            {donorList.length >= 100 && (
               <option value="100">100 per page</option>
             )}
-            <option value={blogList.length}>All per page</option>
+            <option value={donorList.length}>All per page</option>
           </select>
         )}
       </div>
@@ -194,21 +173,17 @@ const Blog = () => {
             <thead>
               <tr className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
                 <th className="px-4 py-3">No</th>
-                <th className="px-4 py-3">Image</th>
-                <th className="px-4 py-3">Title</th>
-                <th className="px-4 py-3">Category</th>
-                <th className="px-4 py-3">Author</th>
+                <th className="px-4 py-3">Name</th>
+                <th className="px-4 py-3">Amount</th>
                 <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Status</th>
-
-                <th className="px-4 py-3">View</th>
+                <th className="px-4 py-3">Source</th>
                 <th className="px-4 py-3">Edit</th>
                 <th className="px-4 py-3">Delete</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
               {/* loading */}
-              {blogList && blogList.length == 0 && (
+              {donorList && donorList.length == 0 && (
                 <>
                   <tr className=" text-center">
                     <td className="py-8 text-white font-bold " colSpan={10}>
@@ -218,10 +193,10 @@ const Blog = () => {
                 </>
               )}
               {/* not found */}
-              {blogList &&
-                blogList.length > 0 &&
-                blogs &&
-                blogs.length == 0 && (
+              {donorList &&
+                donorList.length > 0 &&
+                donors &&
+                donors.length == 0 && (
                   <>
                     <tr className=" text-center">
                       <td
@@ -229,7 +204,7 @@ const Blog = () => {
                         colSpan={10}
                       >
                         {/* loading */}
-                        No blogs found!
+                        No donors found!
                       </td>
                     </tr>
                   </>
@@ -237,7 +212,7 @@ const Blog = () => {
 
               {/* display data with pagination */}
               <Pagination
-                blogs={blogs}
+                donors={donors}
                 notifyDeleting={notifyDeleting}
                 numberOfRecordsPerPage={recordsPerPage}
               />
@@ -253,4 +228,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Donor;

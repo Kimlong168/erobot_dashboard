@@ -1,13 +1,11 @@
 import { usePagination } from "pagination-react-js";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../../contexts/DataContext";
+
 import { Link } from "react-router-dom";
 import PopupImage from "../../components/PopupImage";
-
-const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
-  const { blogCategoryList, authorList } = useContext(DataContext);
-
+import { useEffect, useState } from "react";
+import fomatDate from "../../utils/fomatDate";
+const Pagination = ({ notifyDeleting, projects, numberOfRecordsPerPage }) => {
   const [showImage, setShowImage] = useState({
     image: null,
     open: false,
@@ -18,7 +16,7 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
     usePagination({
       activePage: 1,
       recordsPerPage: 5,
-      totalRecordsLength: blogs.length,
+      totalRecordsLength: projects.length,
       offset: 2,
       navCustomPageSteps: { prev: 3, next: 3 },
       permanentFirstNumber: true,
@@ -38,25 +36,25 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
 
   return (
     <>
-      {/* blogs list */}
-      {blogs
+      {/* projects list */}
+      {projects
         .slice(records.indexOfFirst, records.indexOfLast + 1)
-        .map((blog, index) => {
+        .map((item, index) => {
           return (
             <tr
-              key={blog.id}
+              key={item.id}
               className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
             >
               <td className="px-4 py-3">{index + 1}</td>
               <td className="px-4 py-3">
-                {blog.coverImage ? (
+                {item.coverImage ? (
                   <img
                     className="min-w-[70px] h-[50px] rounded-sm cursor-pointer"
-                    src={blog.coverImage}
+                    src={item.coverImage}
                     loading="lazy"
                     onClick={() => {
                       setShowImage({
-                        image: blog.coverImage,
+                        image: item.coverImage,
                         open: true,
                       });
                     }}
@@ -65,12 +63,12 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
                   "No Image"
                 )}
 
-                {showImage.open && showImage.image == blog.coverImage && (
+                {showImage.open && showImage.image == item.coverImage && (
                   <PopupImage
-                    image={blog.coverImage}
+                    image={item.coverImage}
                     setShowImage={(condition) => {
                       setShowImage({
-                        image: blog.coverImage,
+                        image: item.coverImage,
                         open: condition,
                       });
                       setShowImage({
@@ -81,66 +79,39 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
                   />
                 )}
               </td>
-              <td className="px-4 py-3 min-w-[250px]">{blog.title}</td>
-
+              <td className="px-4 py-3">{item.name}</td>
+              <td className="px-4 py-3">{item.location}</td>
+              <td className="px-4 py-3">{fomatDate(item.startDate)}</td>{" "}
+              <td className="px-4 py-3">{fomatDate(item.endDate)}</td>
+              <td className="px-4 py-3">{item.status}</td>
               <td className="px-4 py-3">
-                {blogCategoryList &&
-                blogCategoryList
-                  .map((data) =>
-                    data.id === blog.categoryId ? data.categoryName : null
-                  )
-                  .filter((category) => category !== null).length > 0 ? (
-                  blogCategoryList.map((data) =>
-                    data.id === blog.categoryId ? data.categoryName : null
-                  )
-                ) : (
-                  <p className="truncate">No Category⚠️</p>
-                )}
+                <div className="line-clamp-1 break-all hover:line-clamp-none max-w-[300px] cursor-pointer transition-all transition-delay-300">
+                  {item.description}
+                </div>
               </td>
-              <td className="px-4 py-3">
-                {blog.authorId.toLowerCase() === "default"
-                  ? "Admin"
-                  : authorList &&
-                    authorList.map((data) => {
-                      if (data.id == blog.authorId) {
-                        return data.fullName;
-                      }
-                    })}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap">
-                {blog.publicationDate}
-              </td>
-              <td className="px-4 py-3 text-xs">
-                {blog.isActive ? (
-                  <span className="p-2 py-0.5 rounded border border-green-600 text-green-600 bg-green-600/10">
-                    Active
-                  </span>
-                ) : (
-                  <span className="p-2 py-0.5 rounded border border-red-600 text-red-600 bg-red-600/10">
-                    Inactive
-                  </span>
-                )}
-              </td>
-
               <td className="px-4 py-3 text-sm text-center cursor-pointer">
-                <Link to={`/blogDetail/${blog.id}`}>
+                <Link to={`/projectDetail/${item.id}`}>
                   <div className="px-2 py-1.5 rounded bg-yellow-500 text-white cursor-pointer">
                     View
                   </div>
                 </Link>
               </td>
-
               <td className="px-4 py-3 text-sm text-center">
-                <Link to={`/updateBlog/${blog.id}`}>
+                <Link to={`/updateProject/${item.id}`}>
                   <div className="px-2 py-1.5 rounded bg-green-600 text-white">
                     Edit
                   </div>
                 </Link>
               </td>
-
               <td className="px-4 py-3 text-sm text-center cursor-pointer">
                 <div
-                  onClick={() => notifyDeleting(blog.id, blog.coverImageId)}
+                  onClick={() =>
+                    notifyDeleting(
+                      item.id,
+                      item.coverImageId,
+                      item.galleryImagesFolderName
+                    )
+                  }
                   className="px-2 py-1.5 rounded bg-red-600 text-white"
                 >
                   Delete
@@ -149,11 +120,12 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
             </tr>
           );
         })}
+
       {/* pagination navigate button */}
-      {blogs && blogs.length > 0 && (
+      {projects && projects.length > 0 && (
         <tr>
           <td
-            colSpan={10}
+            colSpan={11}
             role="navigation"
             aria-label="Pagination Navigation"
             className="bg-gray-900  text-blue-500 "
@@ -283,7 +255,7 @@ PaginationItem.propTypes = {
 };
 
 Pagination.propTypes = {
-  blogs: PropTypes.array.isRequired,
+  projects: PropTypes.array.isRequired,
   notifyDeleting: PropTypes.func.isRequired,
   numberOfRecordsPerPage: PropTypes.number.isRequired,
 };

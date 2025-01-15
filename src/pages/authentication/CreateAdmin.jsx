@@ -38,7 +38,7 @@ const CreateUser = () => {
 
   // continue url after verify email
   var actionCodeSettings = {
-    url: "https://sorakhmer-backend.netlify.app",
+    url: "https://erobot-dashboard.vercel.app",
     handleCodeInApp: true,
   };
 

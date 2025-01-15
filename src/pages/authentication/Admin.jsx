@@ -31,7 +31,7 @@ const Admin = () => {
     );
     if (confirm) {
       var actionCodeSettings = {
-        url: "https://sorakhmer-backend.netlify.app",
+        url: "https://erobot-dashboard.vercel.app",
         handleCodeInApp: true,
       };
       sendPasswordResetEmail(auth, email, actionCodeSettings)

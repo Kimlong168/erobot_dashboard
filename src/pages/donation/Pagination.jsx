@@ -1,24 +1,16 @@
 import { usePagination } from "pagination-react-js";
 import PropTypes from "prop-types";
-import { useContext, useEffect, useState } from "react";
-import { DataContext } from "../../contexts/DataContext";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import PopupImage from "../../components/PopupImage";
+import formatDate from "../../utils/fomatDate";
 
-const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
-  const { blogCategoryList, authorList } = useContext(DataContext);
-
-  const [showImage, setShowImage] = useState({
-    image: null,
-    open: false,
-  });
-
+const Pagination = ({ notifyDeleting, donors, numberOfRecordsPerPage }) => {
   // initialize pagination
   const { records, pageNumbers, setActivePage, setRecordsPerPage } =
     usePagination({
       activePage: 1,
       recordsPerPage: 5,
-      totalRecordsLength: blogs.length,
+      totalRecordsLength: donors.length,
       offset: 2,
       navCustomPageSteps: { prev: 3, next: 3 },
       permanentFirstNumber: true,
@@ -38,100 +30,23 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
 
   return (
     <>
-      {/* blogs list */}
-      {blogs
+      {/* items list */}
+      {donors
         .slice(records.indexOfFirst, records.indexOfLast + 1)
-        .map((blog, index) => {
+        .map((item, index) => {
           return (
             <tr
-              key={blog.id}
+              key={item.id}
               className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
             >
               <td className="px-4 py-3">{index + 1}</td>
-              <td className="px-4 py-3">
-                {blog.coverImage ? (
-                  <img
-                    className="min-w-[70px] h-[50px] rounded-sm cursor-pointer"
-                    src={blog.coverImage}
-                    loading="lazy"
-                    onClick={() => {
-                      setShowImage({
-                        image: blog.coverImage,
-                        open: true,
-                      });
-                    }}
-                  />
-                ) : (
-                  "No Image"
-                )}
 
-                {showImage.open && showImage.image == blog.coverImage && (
-                  <PopupImage
-                    image={blog.coverImage}
-                    setShowImage={(condition) => {
-                      setShowImage({
-                        image: blog.coverImage,
-                        open: condition,
-                      });
-                      setShowImage({
-                        image: null,
-                        open: false,
-                      });
-                    }}
-                  />
-                )}
-              </td>
-              <td className="px-4 py-3 min-w-[250px]">{blog.title}</td>
-
-              <td className="px-4 py-3">
-                {blogCategoryList &&
-                blogCategoryList
-                  .map((data) =>
-                    data.id === blog.categoryId ? data.categoryName : null
-                  )
-                  .filter((category) => category !== null).length > 0 ? (
-                  blogCategoryList.map((data) =>
-                    data.id === blog.categoryId ? data.categoryName : null
-                  )
-                ) : (
-                  <p className="truncate">No Category⚠️</p>
-                )}
-              </td>
-              <td className="px-4 py-3">
-                {blog.authorId.toLowerCase() === "default"
-                  ? "Admin"
-                  : authorList &&
-                    authorList.map((data) => {
-                      if (data.id == blog.authorId) {
-                        return data.fullName;
-                      }
-                    })}
-              </td>
-              <td className="px-4 py-3 whitespace-nowrap">
-                {blog.publicationDate}
-              </td>
-              <td className="px-4 py-3 text-xs">
-                {blog.isActive ? (
-                  <span className="p-2 py-0.5 rounded border border-green-600 text-green-600 bg-green-600/10">
-                    Active
-                  </span>
-                ) : (
-                  <span className="p-2 py-0.5 rounded border border-red-600 text-red-600 bg-red-600/10">
-                    Inactive
-                  </span>
-                )}
-              </td>
-
-              <td className="px-4 py-3 text-sm text-center cursor-pointer">
-                <Link to={`/blogDetail/${blog.id}`}>
-                  <div className="px-2 py-1.5 rounded bg-yellow-500 text-white cursor-pointer">
-                    View
-                  </div>
-                </Link>
-              </td>
-
+              <td className="px-4 py-3 min-w-[250px]">{item.name}</td>
+              <td className="px-4 py-3">{item.amount}</td>
+              <td className="px-4 py-3">{formatDate(item.date)}</td>
+              <td className="px-4 py-3">{item.source}</td>
               <td className="px-4 py-3 text-sm text-center">
-                <Link to={`/updateBlog/${blog.id}`}>
+                <Link to={`/updateDonor/${item.id}`}>
                   <div className="px-2 py-1.5 rounded bg-green-600 text-white">
                     Edit
                   </div>
@@ -140,7 +55,7 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
 
               <td className="px-4 py-3 text-sm text-center cursor-pointer">
                 <div
-                  onClick={() => notifyDeleting(blog.id, blog.coverImageId)}
+                  onClick={() => notifyDeleting(item.id)}
                   className="px-2 py-1.5 rounded bg-red-600 text-white"
                 >
                   Delete
@@ -150,7 +65,7 @@ const Pagination = ({ notifyDeleting, blogs, numberOfRecordsPerPage }) => {
           );
         })}
       {/* pagination navigate button */}
-      {blogs && blogs.length > 0 && (
+      {donors && donors.length > 0 && (
         <tr>
           <td
             colSpan={10}
@@ -283,7 +198,7 @@ PaginationItem.propTypes = {
 };
 
 Pagination.propTypes = {
-  blogs: PropTypes.array.isRequired,
+  donors: PropTypes.array.isRequired,
   notifyDeleting: PropTypes.func.isRequired,
   numberOfRecordsPerPage: PropTypes.number.isRequired,
 };
