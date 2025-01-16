@@ -358,7 +358,8 @@ const Order = () => {
             setPriceRange={setPriceRange}
           />
         </div>
-
+      </div>
+      <div className="flex gap-2 w-full mb-4">
         {/* update record per page */}
 
         {orderList && orderList.length > 5 && (
@@ -378,17 +379,14 @@ const Order = () => {
             <option value={orderList.length}>All per page</option>
           </select>
         )}
-
-        <div className="flex gap-2 w-full">
-          <ExportToExcel
-            data={dataToExport}
-            fileName={`Orders_${new Date().toLocaleDateString()}`}
-          />
-          <ExportToPDF
-            data={dataToExport}
-            fileName={`Orders_${new Date().toLocaleDateString()}`}
-          />
-        </div>
+        <ExportToExcel
+          data={dataToExport}
+          fileName={`Orders_${new Date().toLocaleDateString()}`}
+        />
+        <ExportToPDF
+          data={dataToExport}
+          fileName={`Orders_${new Date().toLocaleDateString()}`}
+        />
       </div>
 
       {/* result search for text */}
