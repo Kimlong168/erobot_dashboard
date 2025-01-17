@@ -13,6 +13,7 @@ import formatDate from "../../utils/fomatDate";
 import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
+import { sendTelegramMessage } from "../../utils/sendTelegramMessage";
 const CreateBlog = () => {
   const { blogCategoryList, authorList, setShowNotification } =
     useContext(DataContext);
@@ -63,8 +64,8 @@ const CreateBlog = () => {
   };
 
   //   create blog fucntion
-  const CreateBlog = (imageUrl, imageId) => {
-    addDoc(postCollectionRef, {
+  const CreateBlog = async (imageUrl, imageId) => {
+    const result = await addDoc(postCollectionRef, {
       title: blog.title,
       description: blog.description,
       content: blog.content,
@@ -89,11 +90,25 @@ const CreateBlog = () => {
       action: "created",
     });
 
-    console.log("Blog created!", blog.categoryName);
+    console.log(result);
+    if (
+      typeof blog.isActive === "string"
+        ? JSON.parse(blog.isActive.toLowerCase())
+        : blog.isActive
+    ) {
+      const respone = await sendTelegramMessage(
+        {
+          title: blog.title,
+          image: blog.coverImage,
+          description: blog.description,
+          date: formatDate(blog.publicationDate),
+          id: result.id,
+        },
+        import.meta.env.VITE_ARTICLE_CHAT_ID
+      );
 
-    // const imagesInContent = blog.content.match(/<img[^>]+src="[^"]+"[^>]*>/g);
-    // remove the image from storage if the image is removed from the content
-    // handleImageRemove(imagesInContent);
+      console.log("Telegram response:", respone);
+    }
   };
 
   // upload image to firebase storage
