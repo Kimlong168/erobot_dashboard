@@ -35,6 +35,18 @@ const Pagination = ({
     setActivePage(1);
   }, [numberOfRecordsPerPage]);
 
+  // handle copy text to clipboard
+  const handleCopy = (textToCopy) => {
+    navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        alert("Md5 copied to clipboard!");
+      })
+      .catch((err) => {
+        console.error("Failed to copy text: ", err);
+      });
+  };
+
   return (
     <>
       {/* blogs list */}
@@ -65,9 +77,18 @@ const Pagination = ({
                   "No link"
                 )}
               </td>
-              <td className="px-4 py-3">
+              <td
+                onClick={() => {
+                  if (item?.paymentMethod === "khqr") {
+                    handleCopy(item?.md5);
+                  }
+                }}
+                className="px-4 py-3 group cursor-pointer"
+              >
                 <span className="uppercase"> {item?.paymentMethod} </span>
-                {item?.paymentMethod == "khqr" ? `(${item?.md5})` : ""}
+                <span className="group-hover:block hidden text-xs">
+                  {item?.paymentMethod == "khqr" ? `${item?.md5}` : ""}
+                </span>
               </td>
               <td className="px-4 py-3">{item.date}</td>
               <td className="px-4 py-3 whitespace-nowrap">{item.total} $</td>
