@@ -64,7 +64,10 @@ const Pagination = ({
                   "No link"
                 )}
               </td>
-              {/* <td className="px-4 py-3">{item.paymentMethod}</td> */}
+              <td className="px-4 py-3">
+                <span className="uppercase"> {item?.paymentMethod} </span>
+                {item?.paymentMethod == "khqr" ? `(${item?.md5})` : ""}
+              </td>
               <td className="px-4 py-3">{item.date}</td>
               <td className="px-4 py-3 whitespace-nowrap">{item.total} $</td>
               <td className="px-4 py-3">
@@ -115,7 +118,7 @@ const Pagination = ({
       {orders && orders.length > 0 && (
         <tr>
           <td
-            colSpan={11}
+            colSpan={12}
             role="navigation"
             aria-label="Pagination Navigation"
             className="bg-gray-900  text-blue-500 "

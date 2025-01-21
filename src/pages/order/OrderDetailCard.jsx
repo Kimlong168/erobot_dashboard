@@ -20,12 +20,13 @@ const OrderDetailCard = ({
   phoneNumber,
   contactLink,
   address,
-  email,
+  paymentMethod,
   message,
   cartItems,
   total,
   status,
   date,
+  // md5
   // paymentMethod,
   // timeStamp,
 }) => {
@@ -200,11 +201,9 @@ const OrderDetailCard = ({
             <div className="flex flex-col gap-1">
               {/* Email */}
               <label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm">
-                Email:
+                Payment Method:
               </label>
-              <p className="font-medium  hover:text-blue-600">
-                <Link to={`mailto:${email}`}>{email}</Link>
-              </p>
+              <p className="font-medium uppercase">{paymentMethod}</p>
             </div>
 
             {/* contact link */}

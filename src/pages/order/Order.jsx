@@ -410,7 +410,7 @@ const Order = () => {
                 <th className="px-4 py-3">Address</th>
                 <th className="px-4 py-3">Phone</th>
                 <th className="px-4 py-3">Contact</th>
-                {/* <th className="px-4 py-3">Payment Method</th> */}
+                <th className="px-4 py-3">Payment Method</th>
                 <th className="px-4 py-3">Date</th>
                 <th className="px-4 py-3">Total</th>
                 <th className="px-4 py-3">Status</th>
@@ -423,7 +423,7 @@ const Order = () => {
               {orderList && orderList.length == 0 && (
                 <>
                   <tr className=" text-center">
-                    <td className="py-8 text-white font-bold " colSpan={11}>
+                    <td className="py-8 text-white font-bold " colSpan={12}>
                       <LoadingInTable />
                     </td>
                   </tr>
@@ -438,7 +438,7 @@ const Order = () => {
                     <tr className=" text-center">
                       <td
                         className="py-8 dark:text-white font-bold "
-                        colSpan={11}
+                        colSpan={12}
                       >
                         {/* loading */}
                         No result found!

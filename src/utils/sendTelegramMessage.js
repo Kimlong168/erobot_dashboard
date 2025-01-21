@@ -7,12 +7,11 @@ const sendTelegramMessage = async (data, topic_id) => {
 
   try {
     // caption for the image to send to telegram
-    const messageToSend = `** 🆕 New Articles Posted!**\n\n👉Read now: ${
-      import.meta.env.VITE_CLIENT_BASE_URL
-    }/articles/${data.id}
-      \n📝Title: ${data.title}
+    const messageToSend = `** 🆕 New Articles Posted!**
+      \n\n📝Title: ${data.title}
       \n📖Summary: ${data.description}
       \n📅Publish Date: ${new Date().toLocaleString()}
+      \n👉Read now: ${import.meta.env.VITE_CLIENT_BASE_URL}/articles/${data.id}
       `;
 
     const form = new FormData();
@@ -34,7 +33,6 @@ const sendTelegramMessage = async (data, topic_id) => {
         "Content-Type": `multipart/form-data; boundary=${form._boundary}`,
       },
     });
-    
   } catch (error) {
     console.error("Error sending image:", error);
   }
