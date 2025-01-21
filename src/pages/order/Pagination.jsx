@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import checkSocialMedia from "../../utils/checkSocialMedia";
 import getStatusColor from "../../utils/getStatusColor";
+
 const Pagination = ({
   notifyDeleting,
   orders,

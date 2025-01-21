@@ -37,6 +37,7 @@ const Order = () => {
   // filter order base on date
   const [orderExistDate, setOrderExistDate] = useState([]);
   const [filterDate, setFilterDate] = useState("");
+  const [filterPaymentMethod, setFilterPaymentMethod] = useState("");
   const [recordsPerPage, setRecordsPerPage] = useState(5);
   // get order exist date to filter
   useEffect(() => {
@@ -231,6 +232,24 @@ const Order = () => {
     setSearchKeyword("");
   }, [filterDate, orderList]);
 
+  // filter order base on payment method
+  useEffect(() => {
+    let filteredOrder = [];
+    if (filterPaymentMethod === "default") {
+      filteredOrder = orderList;
+    } else {
+      filteredOrder = orderList.filter(
+        (order) => order.paymentMethod === filterPaymentMethod
+      );
+    }
+
+    setOrders(filteredOrder);
+
+    // reset everything to default
+    setIsSearched(false);
+    setSearchKeyword("");
+  }, [filterPaymentMethod, orderList]);
+
   // filter order base on total price
   useEffect(() => {
     let filteredOrder = orderList.filter(
@@ -349,17 +368,16 @@ const Order = () => {
           <option value="cancelled">Cancelled</option>
         </select>
 
-        {/* price range */}
-        <div className="px-4 py-2 ">
-          <TotalPriceRangeFilter
-            maxTotalPrice={maxTotalPrice}
-            minTotalPrice={minTotalPrice}
-            priceRange={priceRange}
-            setPriceRange={setPriceRange}
-          />
-        </div>
-      </div>
-      <div className="flex gap-2 w-full mb-4">
+        {/* filter by payment method */}
+        <select
+          className="outline-none p-2 px-3 cursor-pointer border bg-transparent font-bold"
+          value={filterPaymentMethod}
+          onChange={(e) => setFilterPaymentMethod(e.target.value)}
+        >
+          <option value="default">All Payment method</option>
+          <option value="cod">COD</option>
+          <option value="khqr">KHQR</option>
+        </select>
         {/* update record per page */}
 
         {orderList && orderList.length > 5 && (
@@ -379,6 +397,18 @@ const Order = () => {
             <option value={orderList.length}>All per page</option>
           </select>
         )}
+      </div>
+      <div className="flex gap-2 w-full mb-4">
+        {/* price range */}
+        <div className="px-4 py-2 ">
+          <TotalPriceRangeFilter
+            maxTotalPrice={maxTotalPrice}
+            minTotalPrice={minTotalPrice}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+          />
+        </div>
+
         <ExportToExcel
           data={dataToExport}
           fileName={`Orders_${new Date().toLocaleDateString()}`}
