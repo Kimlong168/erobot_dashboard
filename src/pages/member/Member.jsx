@@ -1,7 +1,5 @@
-import { Link } from "react-router-dom";
 import Layout from "../../layouts/Layout";
 import TableHead from "../../components/TableHead";
-import LinkIcon from "../../components/LinkIcon";
 import { toast } from "react-toastify";
 import Toast from "../../utils/Toast";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,18 +11,15 @@ import DeletingAlertBox from "../../components/DeletingAlertBox";
 import deleteItemFucntion from "../../lib/deleteItemFunction";
 import { toastProps } from "../../utils/toastProp";
 import LoadingInTable from "../../components/LoadingInTable";
-import PopupImage from "../../components/PopupImage";
 import { DataContext } from "../../contexts/DataContext";
 import { FaSearch } from "react-icons/fa";
+import Pagination from "./Pagination";
 
 const Member = () => {
   const { memberList, setShowNotification } = useContext(DataContext);
   const { setIsUpdated } = useContext(UpdateContext);
-  const [showImage, setShowImage] = useState({
-    open: false,
-    image: null,
-  });
 
+  const [recordsPerPage, setRecordsPerPage] = useState(5);
   const [members, setMembers] = useState(memberList);
   const [filter, setFilter] = useState("default");
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -159,6 +154,25 @@ const Member = () => {
           <option value="Co-founder">Co-founder</option>
           <option value="Leader">Leader</option>
         </select>
+
+        {/* update record per page */}
+        {memberList && memberList.length > 5 && (
+          <select
+            onChange={(e) => setRecordsPerPage(e.target.value)}
+            name="recordsPerPage"
+            className="outline-none p-2 px-3 cursor-pointer border bg-transparent font-bold w-full lg:w-auto"
+          >
+            <option value="5">5 per page</option>
+            <option value="10">10 per page</option>
+            {memberList.length >= 25 && <option value="25">25 per page</option>}
+            {memberList.length >= 50 && <option value="50">50 per page</option>}
+            {memberList.length >= 75 && <option value="75">75 per page</option>}
+            {memberList.length >= 100 && (
+              <option value="100">100 per page</option>
+            )}
+            <option value={memberList.length}>All per page</option>
+          </select>
+        )}
       </div>
 
       {/* result search for text */}
@@ -188,91 +202,40 @@ const Member = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-              {memberList.length == 0 && (
+              {/* loading */}
+              {memberList && memberList.length == 0 && (
                 <>
                   <tr className=" text-center">
-                    <td className="py-8 font-bold text-white" colSpan={9}>
+                    <td className="py-8 text-white font-bold " colSpan={10}>
                       <LoadingInTable />
                     </td>
                   </tr>
                 </>
               )}
+              {/* not found */}
+              {memberList &&
+                memberList.length > 0 &&
+                members &&
+                members.length == 0 && (
+                  <>
+                    <tr className=" text-center">
+                      <td
+                        className="py-8 dark:text-white font-bold "
+                        colSpan={10}
+                      >
+                        {/* loading */}
+                        No members found!
+                      </td>
+                    </tr>
+                  </>
+                )}
 
-              {members?.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
-                >
-                  <td className="px-4 py-3">{index + 1}</td>
-                  <td className="px-4 py-3">{item.fullName}</td>
-                  <td className="px-4 py-3">{item.team}</td>
-                  <td className="px-4 py-3">{item.position}</td>
-                  <td className="px-4 py-3">
-                    <div className="line-clamp-1 break-all  hover:line-clamp-none max-w-[300px] cursor-pointer transition-all transition-delay-300">
-                      {item.bio}
-                    </div>
-                  </td>
-                  <td className="px-4 py-3">
-                    <img
-                      onClick={() =>
-                        setShowImage({
-                          open: true,
-                          image: item.profilePicture,
-                        })
-                      }
-                      className="w-[40px] h-[40px] rounded-full cursor-pointer"
-                      src={item.profilePicture}
-                      loading="lazy"
-                    />
-
-                    {showImage.open &&
-                      showImage.image == item.profilePicture && (
-                        <PopupImage
-                          image={item.profilePicture}
-                          setShowImage={(condition) => {
-                            setShowImage({
-                              image: item.profilePicture,
-                              open: condition,
-                            });
-                            setShowImage({
-                              image: null,
-                              open: false,
-                            });
-                          }}
-                        />
-                      )}
-                  </td>
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      {item.links.length === 0 && <span>No Links</span>}
-                      {item.links.map((link, index) => (
-                        <span key={index}>
-                          <LinkIcon url={link.link} title={link.title} />
-                        </span>
-                      ))}
-                    </div>
-                  </td>
-
-                  <td className="px-4 py-3 text-sm text-center">
-                    <Link to={`/updateMember/${item.id}`}>
-                      <div className="px-2 py-1.5 rounded bg-green-600 text-white">
-                        Edit
-                      </div>
-                    </Link>
-                  </td>
-
-                  <td className="px-4 py-3 text-sm text-center cursor-pointer">
-                    <div
-                      onClick={() =>
-                        notifyDeleting(item.id, item.memberImageId)
-                      }
-                      className="px-2 py-1.5 rounded bg-red-600 text-white"
-                    >
-                      Delete
-                    </div>
-                  </td>
-                </tr>
-              ))}
+              {/* display data with pagination */}
+              <Pagination
+                members={members}
+                notifyDeleting={notifyDeleting}
+                numberOfRecordsPerPage={recordsPerPage}
+              />
             </tbody>
           </table>
         </div>
