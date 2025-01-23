@@ -188,7 +188,9 @@ function App() {
       setAuthorList(author.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       //fetch data of member
-      const member = await getDocs(memberCollectionRef);
+      const member = await getDocs(
+        query(memberCollectionRef, orderBy("position", "desc"))
+      );
       setMemberList(member.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       //fetch data of member

@@ -19,6 +19,7 @@ import Loading from "../../components/Loading";
 import convertDateFormat from "../../utils/convertDate";
 import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
+import getTimestamp from "../../utils/getTimeStamp";
 import { DataContext } from "../../contexts/DataContext";
 const UpdateBlog = () => {
   const { id: blogParams } = useParams();
@@ -151,7 +152,7 @@ const UpdateBlog = () => {
             typeof blog.isActive === "string"
               ? JSON.parse(blog.isActive.toLowerCase())
               : blog.isActive,
-          blog: blog.categoryId,
+          createdAt: getTimestamp(blog.publicationDate),
         },
         { merge: true }
       );
@@ -219,6 +220,7 @@ const UpdateBlog = () => {
           typeof blog.isActive === "string"
             ? JSON.parse(blog.isActive.toLowerCase())
             : blog.isActive,
+        createdAt: getTimestamp(blog.publicationDate),
       },
       { merge: true }
     );

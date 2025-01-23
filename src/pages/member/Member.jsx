@@ -7,7 +7,7 @@ import Toast from "../../utils/Toast";
 import "react-toastify/dist/ReactToastify.css";
 import { storage } from "../../firebase-config";
 import { deleteObject, ref } from "firebase/storage";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UpdateContext } from "../../contexts/UpdateContext";
 import DeletingAlertBox from "../../components/DeletingAlertBox";
 import deleteItemFucntion from "../../lib/deleteItemFunction";
@@ -15,6 +15,7 @@ import { toastProps } from "../../utils/toastProp";
 import LoadingInTable from "../../components/LoadingInTable";
 import PopupImage from "../../components/PopupImage";
 import { DataContext } from "../../contexts/DataContext";
+import { FaSearch } from "react-icons/fa";
 
 const Member = () => {
   const { memberList, setShowNotification } = useContext(DataContext);
@@ -23,7 +24,40 @@ const Member = () => {
     open: false,
     image: null,
   });
-  // delete category notify
+
+  const [members, setMembers] = useState(memberList);
+  const [filter, setFilter] = useState("default");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [isSearched, setIsSearched] = useState(false);
+
+  // search member
+  const handleSearch = (e) => {
+    e.preventDefault();
+    setFilter("default");
+
+    const searchedMember = memberList.filter((member) =>
+      member.fullName.toLowerCase().includes(searchKeyword.toLowerCase().trim())
+    );
+
+    setMembers(searchedMember);
+    setIsSearched(true);
+  };
+
+  //  filter base on position
+  useEffect(() => {
+    let filteredMember = [];
+    if (filter === "default") {
+      filteredMember = memberList;
+    } else {
+      filteredMember = memberList.filter(
+        (member) => member.position.toLowerCase() === filter.toLowerCase()
+      );
+    }
+    setMembers(filteredMember);
+    setIsSearched(false);
+  }, [filter, memberList]);
+
+  // delete notify
   const notifyDeleting = (id, memberImageId) => {
     toast.error(
       <>
@@ -74,6 +108,69 @@ const Member = () => {
         link="/createMember"
       />
 
+      {/* search, sort and filter component */}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4 mb-4">
+        {/* show all member button */}
+        <button
+          onClick={() => {
+            setMembers(memberList);
+            setFilter("default");
+            setSearchKeyword("");
+          }}
+          className="px-4 py-2 font-bold border bg-blue-500 text-white hover:bg-blue-600 hover:shadow-xl rounded w-fit"
+        >
+          Show all
+        </button>
+        {/* search bar */}
+        <form className="w-full lg:w-auto " onSubmit={handleSearch}>
+          <div className="flex  items-center gap-3 px-4 py-1.5 border">
+            {/* search input */}
+            <input
+              className="outline-none border-none p-1 w-full"
+              type="text"
+              placeholder="Search..."
+              name="search"
+              value={searchKeyword}
+              // onBlur={() => setIsSearched(false)}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+                handleSearch(e);
+              }}
+            />
+
+            {/* search icon */}
+            <div onClick={handleSearch}>
+              <FaSearch />
+            </div>
+          </div>
+        </form>
+
+        {/* filter by category */}
+        <select
+          className="outline-none p-2 px-3 cursor-pointer border bg-transparent font-bold"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+        >
+          <option value="default">All Position</option>
+          <option value="Member">Member</option>
+          <option value="Volunteer">Volunteer</option>
+          <option value="Alumni">Alumni</option>
+          <option value="Founder">Founder</option>
+          <option value="Co-founder">Co-founder</option>
+          <option value="Leader">Leader</option>
+        </select>
+      </div>
+
+      {/* result search for text */}
+      {isSearched && searchKeyword.length !== 0 && (
+        <div className="mt-4 mb-2">
+          Search result for{" "}
+          <span className="text-primary font-bold">
+            &quot;{searchKeyword}&ldquo;
+          </span>
+        </div>
+      )}
+
       <div className="w-full overflow-hidden rounded-lg shadow-xs">
         <div className="w-full overflow-x-auto">
           <table className="w-full">
@@ -101,7 +198,7 @@ const Member = () => {
                 </>
               )}
 
-              {memberList.map((item, index) => (
+              {members?.map((item, index) => (
                 <tr
                   key={item.id}
                   className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"

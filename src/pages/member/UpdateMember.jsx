@@ -269,6 +269,7 @@ const UpdateMember = () => {
               <option value="Alumni">Alumni</option>
               <option value="Founder">Founder</option>
               <option value="Co-founder">Co-founder</option>
+              <option value="Leader">Leader</option>
             </select>
 
             {/* profile picture input */}
@@ -295,11 +296,11 @@ const UpdateMember = () => {
             <h2 className="font-bold text-xl flex items-center justify-between mb-2">
               Social Media
               <button
-                className="uppercase text-sm text-green-600 flex items-center gap-2"
+                className="uppercase text-sm text-green-600 flex items-center gap-2 hover:text-white"
                 onClick={addLink}
               >
                 Add Link
-                <IoMdAddCircleOutline color="green" size="20" />
+                <IoMdAddCircleOutline size="20" />
               </button>
             </h2>
 

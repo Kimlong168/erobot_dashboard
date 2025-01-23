@@ -14,6 +14,7 @@ import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
 import { sendTelegramMessage } from "../../utils/sendTelegramMessage";
+import getTimestamp from "../../utils/getTimeStamp";
 const CreateBlog = () => {
   const { blogCategoryList, authorList, setShowNotification } =
     useContext(DataContext);
@@ -79,6 +80,7 @@ const CreateBlog = () => {
         typeof blog.isActive === "string"
           ? JSON.parse(blog.isActive.toLowerCase())
           : blog.isActive,
+      createdAt: getTimestamp(blog.publicationDate),
     });
     // to update the data in the table
     setIsUpdated((prev) => !prev);
