@@ -577,7 +577,7 @@ const UpdateProject = () => {
             <label className="font-bold text-xl">
               Select Organizer <RedStar />
             </label>
-            <div className="flex items-center gap-5 mt-3 mb-6">
+            <div className="flex flex-wrap items-center gap-5 mt-3 mb-6">
               {partnerList.map((partner) => {
                 const isCoOrganizer = coOrganizers.some(
                   (coOrganizer) => coOrganizer.id === partner.id
@@ -589,10 +589,10 @@ const UpdateProject = () => {
                 return (
                   <div
                     key={partner.id}
-                    className="flex items-center justify-between border-b pb-2 mb-2"
+                    className="flex flex-shrink-0  items-center justify-between border-b pb-2 mb-2"
                   >
                     <div
-                      className="flex gap-5 flex-col"
+                      className="flex gap-5 flex-col "
                       onClick={() => {
                         if (isSelected) {
                           setOrganizers((prev) =>
@@ -627,7 +627,7 @@ const UpdateProject = () => {
             </div>
 
             <label className="font-bold text-xl">Select Co-Organizer</label>
-            <div className="flex items-center gap-5 mt-3 mb-6">
+            <div className="flex flex-wrap items-center gap-5 mt-3 mb-6">
               {partnerList.map((partner) => {
                 const isOrganizer = organizers.some(
                   (organizer) => organizer.id === partner.id
@@ -639,10 +639,10 @@ const UpdateProject = () => {
                 return (
                   <div
                     key={partner.id}
-                    className="flex items-center justify-between border-b pb-2 mb-2"
+                    className="flex flex-shrink-0 items-center justify-between border-b pb-2 mb-2"
                   >
                     <div
-                      className="flex gap-5 flex-col"
+                      className="flex gap-5 flex-col "
                       onClick={() => {
                         if (isSelected) {
                           setCoOrganizers((prev) =>

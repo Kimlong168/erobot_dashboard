@@ -165,11 +165,11 @@ const ProjectDetail = () => {
             {/* Organizers */}
             <div className="mb-6">
               <h2 className="font-bold text-lg">Organizers:</h2>
-              <div className="flex items-center gap-5 mt-3 mb-6">
+              <div className="flex flex-wrap items-center gap-5 mt-3 mb-6">
                 {project.organizers.map((organizer, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between border-b pb-2 mb-2"
+                    className="flex flex-shrink-0 items-center justify-between border-b pb-2 mb-2"
                   >
                     <div className="flex gap-5 flex-col">
                       <div className=" w-[80px] h-[80px]">
@@ -191,11 +191,11 @@ const ProjectDetail = () => {
             {project.coOrganizers.length > 0 && (
               <div className="mb-6">
                 <h2 className="font-bold text-lg">Co-Organizers:</h2>
-                <div className="flex items-center gap-5 mt-3 mb-6">
+                <div className="flex flex-wrap items-center gap-5 mt-3 mb-6">
                   {project.coOrganizers.map((coOrganizer, index) => (
                     <div
                       key={index}
-                      className="flex items-center justify-between border-b pb-2 mb-2"
+                      className="flex flex-shrink-0 items-center justify-between border-b pb-2 mb-2"
                     >
                       <div className="flex gap-5 flex-col">
                         <div className=" w-[80px] h-[80px]">
