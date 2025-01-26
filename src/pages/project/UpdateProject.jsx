@@ -19,7 +19,7 @@ import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
 import VolunteerForm from "../../components/VolunteerForm";
-import YoutubeForm from "../../components/YoutubeForm";
+// import YoutubeForm from "../../components/YoutubeForm";
 import Loading from "../../components/Loading";
 import { FaX } from "react-icons/fa6";
 // import OrganizerForm from "../../components/OrganizerForm";
@@ -32,7 +32,7 @@ const UpdateProject = () => {
     {
       id: "1",
       partnerName: "ERobot",
-      partnerLogo: "https://erobot-frontend.vercel.app/images/light.png",
+      partnerLogo: "https://erobot-dashboard.vercel.app/logoNoBg.png",
     },
     ...oldPartnerList,
   ];
@@ -50,7 +50,6 @@ const UpdateProject = () => {
     status: "current", // current, upcoming, previous
     location: "",
     duration: 1,
-    budget: 0,
     fundsRaised: 0,
     fundingGoal: 0,
     beneficiariesCount: 0,
@@ -59,12 +58,6 @@ const UpdateProject = () => {
     volunteers: [],
     targetGroup: "",
     images: [],
-    videos: [],
-    contactPerson: "",
-    email: "",
-    phone: "",
-    website: "",
-    tags: [],
   });
   const [oldImageUrl, setOldImageUrl] = useState(null);
   let navigate = useNavigate();
@@ -127,7 +120,6 @@ const UpdateProject = () => {
             status: data.status,
             location: data.location,
             duration: calculateDuration(data.startDate, data.endDate),
-            budget: data.budget,
             fundsRaised: data.fundsRaised,
             fundingGoal: data.fundingGoal,
             beneficiariesCount: data.beneficiariesCount,
@@ -136,12 +128,6 @@ const UpdateProject = () => {
             volunteers: data.volunteers,
             targetGroup: data.targetGroup,
             images: data.images,
-            videos: data.videos,
-            contactPerson: data.contactPerson,
-            email: data.email,
-            phone: data.phone,
-            website: data.website,
-            tags: data.tags,
           });
           setVolunteers(data.volunteers);
           setYoutubes(data.videos);
@@ -451,7 +437,7 @@ const UpdateProject = () => {
             />
 
             <div className="flex flex-col sm:flex-row sm:gap-3 items-center">
-              <div className="w-full">
+              {/* <div className="w-full">
                 <label className="font-bold text-xl">
                   Budget ($)
                   <RedStar />
@@ -463,13 +449,10 @@ const UpdateProject = () => {
                   value={project.budget}
                   onChange={(e) => handleOnChange(e)}
                 />
-              </div>
+              </div> */}
 
               <div className="w-full">
-                <label className="font-bold text-xl">
-                  Funds Raised ($)
-                  <RedStar />
-                </label>
+                <label className="font-bold text-xl">Funds Raised ($)</label>
                 <input
                   className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
                   type="number"
@@ -521,18 +504,8 @@ const UpdateProject = () => {
                   onChange={(e) => handleOnChange(e)}
                 />
               </div>
-              <div className="w-full">
-                <label className="font-bold text-xl">Website</label>
-                <input
-                  className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
-                  type="url"
-                  name="website"
-                  value={project.website}
-                  onChange={(e) => handleOnChange(e)}
-                />
-              </div>
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <label className="font-bold text-xl">
                 Tag
                 <RedStar />
@@ -581,7 +554,7 @@ const UpdateProject = () => {
                   onChange={(e) => handleOnChange(e)}
                 />
               </div>
-            </div>
+            </div> */}
             <label className="font-bold text-xl">
               Content <RedStar />
             </label>
@@ -774,13 +747,13 @@ const UpdateProject = () => {
               )}
             </fieldset>
 
-            <div>
+            {/* <div>
               <YoutubeForm
                 title={"Youtube Videos"}
                 youtubes={youtubes}
                 setYoutubes={setYoutubes}
               />
-            </div>
+            </div> */}
 
             {/* <div>
               <OrganizerForm
@@ -807,13 +780,9 @@ const UpdateProject = () => {
                 project.endDate &&
                 project.status &&
                 project.location &&
-                project.budget &&
-                project.fundsRaised &&
                 project.fundingGoal &&
                 project.beneficiariesCount &&
                 project.targetGroup &&
-                project.contactPerson &&
-                project.tags &&
                 organizers
                   ? updateProject
                   : notify

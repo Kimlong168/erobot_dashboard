@@ -18,7 +18,7 @@ import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
 import VolunteerForm from "../../components/VolunteerForm";
-import YoutubeForm from "../../components/YoutubeForm";
+// import YoutubeForm from "../../components/YoutubeForm";
 import { FaX } from "react-icons/fa6";
 // import OrganizerForm from "../../components/OrganizerForm";
 
@@ -45,7 +45,6 @@ const CreateProject = () => {
     status: "current", // current, upcoming, previous
     location: "",
     duration: 1,
-    budget: 0,
     fundsRaised: 0,
     fundingGoal: 0,
     beneficiariesCount: 0,
@@ -55,20 +54,14 @@ const CreateProject = () => {
     targetGroup: "",
     images: [],
     videos: [],
-    contactPerson: "",
-    email: "",
-    phone: "",
-    website: "",
-    tags: [],
   });
   const [images, setImages] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
-  const [youtubes, setYoutubes] = useState([]);
   const [organizers, setOrganizers] = useState([
     {
       id: "1",
       partnerName: "ERobot",
-      partnerLogo: "https://erobot-frontend.vercel.app/images/light.png",
+      partnerLogo: "https://erobot-dashboard.vercel.app/logoNoBg.png",
     },
   ]);
   const [coOrganizers, setCoOrganizers] = useState([]);
@@ -118,7 +111,6 @@ const CreateProject = () => {
       status: project.status,
       location: project.location,
       duration: calculateDuration(project.startDate, project.endDate),
-      budget: parseFloat(project.budget),
       fundsRaised: parseFloat(project.fundsRaised),
       fundingGoal: parseFloat(project.fundingGoal),
       beneficiariesCount: parseInt(project.beneficiariesCount),
@@ -127,12 +119,6 @@ const CreateProject = () => {
       volunteers: volunteers,
       targetGroup: project.targetGroup,
       images: project.images,
-      videos: youtubes,
-      contactPerson: project.contactPerson,
-      email: project.email,
-      phone: project.phone,
-      website: project.website,
-      tags: project.tags,
     });
 
     // update data
@@ -360,7 +346,7 @@ const CreateProject = () => {
             />
 
             <div className="flex flex-col sm:flex-row sm:gap-3 items-center">
-              <div className="w-full">
+              {/* <div className="w-full">
                 <label className="font-bold text-xl">
                   Budget ($)
                   <RedStar />
@@ -369,20 +355,19 @@ const CreateProject = () => {
                   className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
                   type="number"
                   name="budget"
+                  min={1}
                   value={project.budget}
                   onChange={(e) => handleOnChange(e)}
                 />
-              </div>
+              </div> */}
 
               <div className="w-full">
-                <label className="font-bold text-xl">
-                  Funds Raised ($)
-                  <RedStar />
-                </label>
+                <label className="font-bold text-xl">Funds Raised ($)</label>
                 <input
                   className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
                   type="number"
                   name="fundsRaised"
+                  min={1}
                   value={project.fundsRaised}
                   onChange={(e) => handleOnChange(e)}
                 />
@@ -396,6 +381,7 @@ const CreateProject = () => {
                 <input
                   className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
                   type="number"
+                  min={1}
                   name="fundingGoal"
                   value={project.fundingGoal}
                   onChange={(e) => handleOnChange(e)}
@@ -414,6 +400,7 @@ const CreateProject = () => {
                   type="number"
                   name="beneficiariesCount"
                   value={project.beneficiariesCount}
+                  min={1}
                   onChange={(e) => handleOnChange(e)}
                 />
               </div>{" "}
@@ -430,18 +417,8 @@ const CreateProject = () => {
                   onChange={(e) => handleOnChange(e)}
                 />
               </div>
-              <div className="w-full">
-                <label className="font-bold text-xl">Website</label>
-                <input
-                  className="border border-gray-700 p-2 rounded w-full outline-none mb-5"
-                  type="url"
-                  name="website"
-                  value={project.website}
-                  onChange={(e) => handleOnChange(e)}
-                />
-              </div>
             </div>
-            <div className="w-full">
+            {/* <div className="w-full">
               <label className="font-bold text-xl">
                 Tag
                 <RedStar />
@@ -490,7 +467,7 @@ const CreateProject = () => {
                   onChange={(e) => handleOnChange(e)}
                 />
               </div>
-            </div>
+            </div> */}
             <label className="font-bold text-xl">
               Content <RedStar />
             </label>
@@ -679,13 +656,13 @@ const CreateProject = () => {
               )}
             </fieldset>
 
-            <div>
+            {/* <div>
               <YoutubeForm
                 title={"Youtube Videos"}
                 youtubes={youtubes}
                 setYoutubes={setYoutubes}
               />
-            </div>
+            </div> */}
 
             {/* <div>
               <OrganizerForm
@@ -713,13 +690,9 @@ const CreateProject = () => {
                 project.endDate &&
                 project.status &&
                 project.location &&
-                project.budget &&
-                project.fundsRaised &&
                 project.fundingGoal &&
                 project.beneficiariesCount &&
                 project.targetGroup &&
-                project.contactPerson &&
-                project.tags &&
                 project.images &&
                 organizers
                   ? uploadImageAndCreateProject

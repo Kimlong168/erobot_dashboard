@@ -7,9 +7,9 @@ import { FiEdit } from "react-icons/fi";
 import { IoChevronBackCircle } from "react-icons/io5";
 
 import Loading from "../../components/Loading";
-
+import ContentDisplay from "../../components/ContentDisplay";
 import GoToTop from "../../components/GoToTop";
-import YoutubeDisplay from "../../components/YoutubeDisplay";
+// import YoutubeDisplay from "../../components/YoutubeDisplay";
 import formatDate from "../../utils/fomatDate";
 // import { DataContext } from "../../contexts/DataContext";
 const ProjectDetail = () => {
@@ -102,6 +102,11 @@ const ProjectDetail = () => {
               <p className="text-gray-700">{project.description}</p>
             </div>
 
+            {/* content */}
+            <div className="mb-4">
+              <ContentDisplay htmlString={project.content} />
+            </div>
+
             {/* Key Details */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
               <div>
@@ -119,12 +124,6 @@ const ProjectDetail = () => {
               <div>
                 <h2 className="font-bold text-lg">End Date:</h2>
                 <p className="text-gray-700">{formatDate(project.endDate)}</p>
-              </div>
-              <div>
-                <h2 className="font-bold text-lg">Budget:</h2>
-                <p className="text-gray-700">
-                  ${project.budget.toLocaleString()}
-                </p>
               </div>
               <div>
                 <h2 className="font-bold text-lg">Funds Raised:</h2>
@@ -146,35 +145,10 @@ const ProjectDetail = () => {
                 <h2 className="font-bold text-lg">Target Group:</h2>
                 <p className="text-gray-700">{project.targetGroup}</p>
               </div>
-              <div>
-                <h2 className="font-bold text-lg">Contact Person:</h2>
-                <p className="text-gray-700">{project.contactPerson}</p>
-              </div>
-              <div>
-                <h2 className="font-bold text-lg">Phone:</h2>
-                <p className="text-gray-700">
-                  {project.phone ? project.phone : "None"}
-                </p>
-              </div>
-              <div>
-                <h2 className="font-bold text-lg">Email:</h2>
-                <p className="text-gray-700">
-                  {project.email ? project.email : "None"}
-                </p>
-              </div>{" "}
-              <div>
-                <h2 className="font-bold text-lg">Website:</h2>
-                <Link
-                  href={project.website ? project.website : "#"}
-                  className="text-gray-700"
-                >
-                  {project.website ? project.website : "None"}
-                </Link>
-              </div>
             </div>
 
             {/* Tags */}
-            <div className="mb-6">
+            {/* <div className="mb-6">
               <h2 className="font-bold text-lg">Tags:</h2>
               <div className="flex flex-wrap gap-2 mt-2">
                 {project.tags?.split(",").map((tag, index) => (
@@ -186,7 +160,7 @@ const ProjectDetail = () => {
                   </div>
                 ))}
               </div>
-            </div>
+            </div> */}
 
             {/* Organizers */}
             <div className="mb-6">
@@ -255,7 +229,7 @@ const ProjectDetail = () => {
             )}
 
             {/* Videos */}
-            {project.videos.length > 0 && (
+            {/* {project.videos.length > 0 && (
               <div className="mb-6">
                 <h2 className="font-bold text-lg">Videos:</h2>
                 <div className="flex flex-wrap gap-4 mt-2">
@@ -266,7 +240,7 @@ const ProjectDetail = () => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Images */}
             {project.images.length > 0 && (

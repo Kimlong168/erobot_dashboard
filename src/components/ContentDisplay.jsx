@@ -1,9 +1,7 @@
-import PropTypes from "prop-types";
-import "../App.css";
 const ContentDisplay = ({ htmlString }) => {
   //   Use a regular expression to find the oembed element in the HTML string
   const oembedRegex = /<oembed[^>]*>/g;
-  const oembedMatches = htmlString.match(oembedRegex);
+  const oembedMatches = htmlString?.match(oembedRegex);
 
   // convert oembed to iframe (youtube video)
   if (oembedMatches) {
@@ -15,9 +13,10 @@ const ContentDisplay = ({ htmlString }) => {
     });
   }
 
-  return <div className="break-all" dangerouslySetInnerHTML={{ __html: htmlString }} />;
-};
-ContentDisplay.propTypes = {
-  htmlString: PropTypes.string.isRequired,
+  return (
+    <div className="prose-pre:w-[100%] text-gray-2 prose prose-h1:mt-7 prose-h2:mt-6 prose-h3:mt-4 prose-h4:mt-3 prose-p:m-0 prose-p:mt-2 prose-a:text-blue-500 prose-a:cursor-pointer max-w-full text-justify">
+      <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+    </div>
+  );
 };
 export default ContentDisplay;
