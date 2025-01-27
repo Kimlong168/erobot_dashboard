@@ -88,7 +88,7 @@ const Donor = () => {
     return {
       No: index + 1,
       Name: donor.name,
-      Amount: donor.amount,
+      Amount: "$ " + donor.amount,
       Date: donor.date,
       Source: donor.source,
     };

@@ -279,8 +279,6 @@ const Order = () => {
       Total: item.total,
       Status: item.status,
       Remark: item.message,
-      // to view the order
-      View: `https://dashboard.erobotkh.org/orderDetail/${item.id}`,
     };
   });
 
