@@ -26,7 +26,7 @@ const CardGroup = () => {
     donorList,
     awardList,
     partnerList,
-    galleryList,
+    stickerList,
     adminList,
     orderList,
     numberOfEachOrderStatus,
@@ -116,11 +116,11 @@ const CardGroup = () => {
           numberOfItem={partnerList.length}
         />
         <Card
-          title="Gallery"
-          subtitle="Manage gallery"
-          href="/gallery"
+          title="Sticker"
+          subtitle="Manage sticker"
+          href="/sticker"
           Icon={PiImage}
-          numberOfItem={galleryList.length}
+          numberOfItem={stickerList.length}
         />
         <Card
           title="Admin"

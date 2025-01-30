@@ -36,11 +36,11 @@ import UpdateAward from "./pages/award/UpdateAward";
 import Contact from "./pages/contact/Contact";
 import UpdateContact from "./pages/contact/UpdateContact";
 import CreateContact from "./pages/contact/CreateContact";
-import Gallery from "./pages/gallery/Gallery";
-import CreateGallery from "./pages/gallery/CreateGallery";
-import UpdateGallery from "./pages/gallery/UpdateGallery";
-import CreateGuestImage from "./pages/gallery/CreateGuestImage";
-import UpdateGuestImage from "./pages/gallery/UpdateGuestImage";
+
+import Sticker from "./pages/sticker/Sticker";
+import CreateSticker from "./pages/sticker/CreateSticker";
+import UpdateSticker from "./pages/sticker/UpdateSticker";
+
 import CreateAdmin from "./pages/authentication/CreateAdmin";
 import Admin from "./pages/authentication/Admin";
 import Login from "./pages/authentication/Login";
@@ -96,8 +96,7 @@ function App() {
   const [partnerList, setPartnerList] = useState([]);
   const [awardList, setAwardList] = useState([]);
   const [contactList, setContactList] = useState([]);
-  const [galleryList, setGalleryList] = useState([]);
-  const [guestImageList, setGuestImageList] = useState([]);
+  const [stickerList, setStickerList] = useState([]);
   const [adminList, setAdminList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [countNewOrder, setCountNewOrder] = useState([]);
@@ -115,8 +114,7 @@ function App() {
     const partnerCollectionRef = collection(db, "partners");
     const awardCollectionRef = collection(db, "awards");
     const contactCollectionRef = collection(db, "contact");
-    const galleryCollectionRef = collection(db, "gallery");
-    const guestImageCollectionRef = collection(db, "guestImages");
+    const stickerCollectionRef = collection(db, "stickers");
     const adminCollectionRef = collection(db, "admin");
     const orderCollectionRef = collection(db, "orders");
 
@@ -215,16 +213,12 @@ function App() {
         contact.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       );
 
-      //fetch gallery data
-      const gallery = await getDocs(galleryCollectionRef);
-      setGalleryList(
-        gallery.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      //fetch sticker data
+      const sticker = await getDocs(
+        query(stickerCollectionRef, orderBy("version", "asc"))
       );
-
-      // fetch guest image data
-      const guestImage = await getDocs(guestImageCollectionRef);
-      setGuestImageList(
-        guestImage.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setStickerList(
+        sticker.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
       );
 
       //fetch admin data
@@ -301,8 +295,7 @@ function App() {
                 donorList,
                 awardList,
                 partnerList,
-                galleryList,
-                guestImageList,
+                stickerList,
                 adminList,
                 handleThemeSwitch,
                 theme,
@@ -416,26 +409,15 @@ function App() {
                     path="/updateContact/:id"
                     element={<UpdateContact />}
                   />
-                  {/* -------------gallery route------------- */}
-                  {/*  gallery*/}
-                  <Route path="/gallery" element={<Gallery />} />
-                  {/* create gallery */}
-                  <Route path="/createGallery" element={<CreateGallery />} />
-                  {/* update gallery */}
+                  {/* -------------sticker route------------- */}
+                  {/*  sticker*/}
+                  <Route path="/sticker" element={<Sticker />} />
+                  {/* create sticker */}
+                  <Route path="/createSticker" element={<CreateSticker />} />
+                  {/* update sticker */}
                   <Route
-                    path="/updateGallery/:id"
-                    element={<UpdateGallery />}
-                  />
-                  {/* -------------guest image route------------- */}
-                  {/*  guest image*/}
-                  <Route
-                    path="/createGuestImage"
-                    element={<CreateGuestImage />}
-                  />
-                  {/* update guest image */}
-                  <Route
-                    path="/updateGuestImage/:id"
-                    element={<UpdateGuestImage />}
+                    path="/updateSticker/:id"
+                    element={<UpdateSticker />}
                   />
                   {/* -------------user route------------- */}
                   {/* user */}

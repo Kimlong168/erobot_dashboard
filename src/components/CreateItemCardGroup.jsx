@@ -116,10 +116,10 @@ const CreateItemCardGroup = () => {
           />
         </Link>
 
-        {/* create gallery*/}
-        <Link to="/createGallery">
+        {/* create */}
+        <Link to="/createSticker">
           <CreateItemCard
-            title="Gallery"
+            title="Sticker"
             color="bg-purple-900"
             icon={<PiImage />}
           />

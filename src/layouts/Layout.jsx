@@ -320,20 +320,20 @@ const Layout = (props) => {
                 </Link>
               </li>
 
-              {/* gallery */}
+              {/* sticker */}
               <li
-                className={activeTab === "gallery" ? "bg-gray-800" : " "}
-                onClick={() => handleChangeTab("gallery")}
+                className={activeTab === "sticker" ? "bg-gray-800" : " "}
+                onClick={() => handleChangeTab("sticker")}
               >
                 <Link
-                  to="/gallery"
+                  to="/sticker"
                   className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-gray-800 pr-6"
                 >
                   <span className="inline-flex justify-center items-center ml-4">
                     <PiImage />
                   </span>
                   <span className="ml-2 text-sm tracking-wide truncate">
-                    Gallery
+                    Sticker
                   </span>
                 </Link>
               </li>

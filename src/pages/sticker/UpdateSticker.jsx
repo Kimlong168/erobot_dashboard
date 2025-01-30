@@ -16,15 +16,16 @@ import notify from "../../utils/Notify";
 import RedStar from "../../components/RedStar";
 import ButtonBack from "../../components/ButtonBack";
 import { DataContext } from "../../contexts/DataContext";
-const UpdateGallery = () => {
-  const { id: galleryParam } = useParams();
+const UpdateSticker = () => {
+  const { id: stickerParam } = useParams();
   const { setIsUpdated } = useContext(UpdateContext);
   const { setShowNotification } = useContext(DataContext);
   const [oldImageUrl, setOldImageUrl] = useState("");
-  const [gallery, setGallery] = useState({
+  const [sticker, setSticker] = useState({
     name: null,
     url: null,
     imageId: "",
+    version: "",
   });
 
   let navigate = useNavigate();
@@ -33,23 +34,23 @@ const UpdateGallery = () => {
   const handleOnChange = (e) => {
     // check if the input is image
     if (e.target.name === "url") {
-      setGallery({
-        ...gallery,
+      setSticker({
+        ...sticker,
         [e.target.name]: e.target.files[0],
       });
       return;
     }
 
-    setGallery({
-      ...gallery,
+    setSticker({
+      ...sticker,
       [e.target.name]: e.target.value,
     });
   };
 
   useEffect(() => {
-    const docRef = doc(db, "gallery", galleryParam);
+    const docRef = doc(db, "stickers", stickerParam);
 
-    // fetch a field of data from firebase by galleryParam to update
+    // fetch a field of data from firebase by stickerParam to update
     const fetchData = async () => {
       try {
         const docSnap = await getDoc(docRef);
@@ -57,10 +58,11 @@ const UpdateGallery = () => {
           const data = docSnap.data();
           console.log("data", data);
 
-          setGallery({
+          setSticker({
             name: data.name,
             url: null,
             imageId: data.imageId,
+            version: data.version,
           });
 
           // get old image url
@@ -74,21 +76,22 @@ const UpdateGallery = () => {
     };
 
     fetchData();
-  }, [galleryParam]);
+  }, [stickerParam]);
 
   //   update product if all required fields are filled
-  async function updateGallery() {
+  async function updatesticker() {
     // navigate to product page in advance
-    navigate("/gallery");
+    navigate("/sticker");
     // if image is not updated
-    if (gallery.url === null) {
-      const docRef = doc(db, "gallery", galleryParam);
+    if (sticker.url === null) {
+      const docRef = doc(db, "stickers", stickerParam);
       await setDoc(
         docRef,
         {
-          name: gallery.name,
+          name: sticker.name,
           url: oldImageUrl,
-          imageId: gallery.imageId,
+          imageId: sticker.imageId,
+          version: sticker.version,
         },
         { merge: true }
       );
@@ -96,11 +99,11 @@ const UpdateGallery = () => {
       // if image is updated
 
       // remove the old image from the storage
-      const storageRef = ref(storage, `galleryImages/${gallery.imageId}`);
+      const storageRef = ref(storage, `stickerImages/${sticker.imageId}`);
       deleteObject(storageRef)
         .then(() => {
           // File deleted successfully
-          console.log("gallery image deleted successfully");
+          console.log("sticker image deleted successfully");
         })
         .catch((error) => {
           // Uh-oh, an error occurred!
@@ -108,21 +111,21 @@ const UpdateGallery = () => {
         });
 
       // upload new image to the storage, get the image url and update the data in the firestore
-      const imageRef = ref(storage, `galleryImages/${gallery.imageId}`);
-      uploadBytes(imageRef, gallery.url).then(() => {
+      const imageRef = ref(storage, `stickerImages/${sticker.imageId}`);
+      uploadBytes(imageRef, sticker.url).then(() => {
         // Get the download URL for the uploaded image
         getDownloadURL(imageRef)
           .then((downloadURL) => {
             console.log("new image URL:", downloadURL);
 
             // update data in the firestore with a new image url and new data
-            updateGalleryAndNewImage(downloadURL);
+            updatestickerAndNewImage(downloadURL);
           })
           .catch((error) => {
             console.error("Error getting download URL:", error);
           });
 
-        console.log("new gallery image uploaded");
+        console.log("new sticker image uploaded");
       });
     }
 
@@ -130,29 +133,30 @@ const UpdateGallery = () => {
     setIsUpdated((prev) => !prev);
     setShowNotification({
       status: true,
-      item: "gallery",
+      item: "sticker",
       action: "updated",
     });
 
-    console.log("gallery updated");
+    console.log("sticker updated");
   }
 
   // if the image is updated, update the image url in the firestore. this function is called in updateAuthor function because we need to get the new image url first
-  async function updateGalleryAndNewImage(newImageUrl) {
-    const docRef = doc(db, "gallery", galleryParam);
+  async function updatestickerAndNewImage(newImageUrl) {
+    const docRef = doc(db, "stickers", stickerParam);
     await setDoc(
       docRef,
       {
-        name: gallery.name.trim() === "" ? "No name" : gallery.name,
+        name: sticker.name.trim() === "" ? "No name" : sticker.name,
         url: newImageUrl,
-        imageId: gallery.imageId,
+        imageId: sticker.imageId,
+        version: sticker.version,
       },
       { merge: true }
     );
   }
 
   // loading until data is fetched
-  if (gallery.name === null) {
+  if (sticker.name === null) {
     return (
       <Layout>
         <Loading />
@@ -165,7 +169,7 @@ const UpdateGallery = () => {
       <div className="text-gray-900  border-gray-700 rounded">
         {/* title */}
         <div className="text-center p-4 pt-0 font-bold text-3xl text-purple-900 underline uppercase">
-          Update gallery image
+          Update Sticker
         </div>
         <br />
 
@@ -173,15 +177,15 @@ const UpdateGallery = () => {
         <div className="bg-errorPage bg-no-repeat bg-cover bg-fixed bg-bottom  ">
           <fieldset className="border border-gray-700 p-4 rounded-md shadow-md mb-10">
             <legend className="text-xl uppercase font-bold text-purple-700">
-              Update Image
+              Update sticker
             </legend>
             <div className="flex flex-col md:flex-row gap-5">
               <div>
-                <label>Image name</label>
+                <label>Sticker name</label>
                 <input
                   type="text"
                   name="name"
-                  value={gallery.name}
+                  value={sticker.name}
                   className="border border-gray-300 p-2 rounded w-full outline-none mb-5"
                   onChange={handleOnChange}
                 />
@@ -195,11 +199,22 @@ const UpdateGallery = () => {
                   className="border border-gray-300 p-2 rounded w-full outline-none mb-5"
                   onChange={handleOnChange}
                 />
+                <label>Version</label>
+                <input
+                  type="text"
+                  name="version"
+                  placeholder="version (eg. 1,2,3)"
+                  value={sticker.version}
+                  className="border border-gray-300 p-2 rounded w-full outline-none mb-5"
+                  onChange={handleOnChange}
+                />
                 <button
-                  onClick={gallery.url ? updateGallery : notify}
+                  onClick={
+                    sticker.url && sticker.version ? updatesticker : notify
+                  }
                   className="border px-3 py-1.5 rounded bg-green-500 text-white hover:bg-green-700"
                 >
-                  Update Gallery
+                  Update Sticker
                 </button>
               </div>
 
@@ -221,9 +236,9 @@ const UpdateGallery = () => {
       <Toast />
 
       {/* button back */}
-      <ButtonBack link="/gallery" />
+      <ButtonBack link="/sticker" />
     </Layout>
   );
 };
 
-export default UpdateGallery;
+export default UpdateSticker;
