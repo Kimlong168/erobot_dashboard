@@ -6,13 +6,19 @@ const sendTelegramMessage = async (data, topic_id) => {
   const url = `https://api.telegram.org/bot${botToken}/sendPhoto`;
 
   try {
-    // caption for the image to send to telegram
-    const messageToSend = `** 🆕 New Articles Posted!**
-      \n\n📝Title: ${data.title}
-      \n📖Summary: ${data.description}
-      \n📅Publish Date: ${new Date().toLocaleString()}
-      \n👉Read now: ${import.meta.env.VITE_CLIENT_BASE_URL}/articles/${data.id}
-      `;
+    // // caption for the image to send to telegram
+    const messageToSend = `*🆕 New Articles Posted!*
+    
+*📝 Title:* ${data.title}
+
+*📖 Summary:* ${data.description}
+
+*📅 Publish Date:* ${new Date().toLocaleString()}
+
+*👉 Read now:* [Click here](${import.meta.env.VITE_CLIENT_BASE_URL}/articles/${
+      data.id
+    })
+`;
 
     const form = new FormData();
     form.append("chat_id", chatId);
