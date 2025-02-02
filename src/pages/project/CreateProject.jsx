@@ -472,7 +472,10 @@ const CreateProject = () => {
               Content <RedStar />
             </label>
             <div className="mb-6">
-              <CKEditor handleEditorChange={handleEditorChange} />
+              <CKEditor
+                handleEditorChange={handleEditorChange}
+                imageFolderName="projectImages"
+              />
             </div>
 
             <div>
