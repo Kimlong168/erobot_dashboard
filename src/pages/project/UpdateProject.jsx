@@ -67,7 +67,7 @@ const UpdateProject = () => {
 
   const [images, setImages] = useState(null);
   const [volunteers, setVolunteers] = useState([]);
-  const [youtubes, setYoutubes] = useState([]);
+  // const [youtubes, setYoutubes] = useState([]);
   const [organizers, setOrganizers] = useState([]);
   const [coOrganizers, setCoOrganizers] = useState([]);
   const [isUploaded, setIsUploaded] = useState(false);
@@ -101,12 +101,12 @@ const UpdateProject = () => {
     const docRef = doc(db, "projects", projectParams);
 
     // fetch a field of data from firebase by projectParams to update
+
     const fetchData = async () => {
       try {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data();
-          console.log("project", data);
 
           setProject({
             galleryImagesFolderName: data.galleryImagesFolderName,
@@ -130,7 +130,7 @@ const UpdateProject = () => {
             images: data.images,
           });
           setVolunteers(data.volunteers);
-          setYoutubes(data.videos);
+          // setYoutubes(data.videos);
 
           setOrganizers(data.organizers);
           setCoOrganizers(data.coOrganizers);
@@ -152,26 +152,30 @@ const UpdateProject = () => {
   //   update project if all required fields are filled
   async function updateProject() {
     // navigate to project detail page in advance
-    navigate("/projectDetail/update-" + projectParams);
 
     const docRef = doc(db, "projects", projectParams);
-
     // if cover image is not updated
     if (project.coverImage === null) {
-      await setDoc(docRef, {}, { merge: true });
+      console.log("project without image", project);
       // to update the data in the table
-      await setDoc(
-        docRef,
-        {
-          ...project,
-          videos: youtubes,
-          volunteers: volunteers,
-          organizers: organizers,
-          coOrganizers: coOrganizers,
-          coverImage: oldImageUrl,
-        },
-        { merge: true }
-      );
+      try {
+        await setDoc(
+          docRef,
+          {
+            ...project,
+            volunteers: volunteers,
+            organizers: organizers,
+            coOrganizers: coOrganizers,
+            coverImage: oldImageUrl,
+          },
+          { merge: true }
+        );
+
+        console.log("Firestore updated successfully without a new image.");
+      } catch (error) {
+        console.error("Error updating Firestore:", error);
+      }
+
       setIsUpdated((prev) => !prev);
     } else {
       // if cover image is updated
@@ -195,6 +199,7 @@ const UpdateProject = () => {
         storage,
         `projectCoverImages/${project.coverImageId}`
       );
+
       uploadBytes(imageRef, project.coverImage).then(() => {
         // Get the download URL for the uploaded image
         getDownloadURL(imageRef)
@@ -211,6 +216,7 @@ const UpdateProject = () => {
       });
       setIsUpdated((prev) => !prev);
     }
+    navigate("/projectDetail/update-" + projectParams);
 
     // set isAdded to true to display notification
     setShowNotification({
@@ -225,11 +231,11 @@ const UpdateProject = () => {
   // if the image is updated, update the image url in the firestore. this function is called in updateproject function because we need to get the new image url first
   async function updateProjectAndNewImage(newImageUrl) {
     const docRef = doc(db, "projects", projectParams);
-    await setDoc(
+    console.log("project with image image", project);
+    const result = await setDoc(
       docRef,
       {
         ...project,
-        videos: youtubes,
         volunteers: volunteers,
         organizers: organizers,
         coOrganizers: coOrganizers,
@@ -237,6 +243,8 @@ const UpdateProject = () => {
       },
       { merge: true }
     );
+
+    console.log("results with image", result);
     // to update the data in the table
     setIsUpdated((prev) => !prev);
   }
