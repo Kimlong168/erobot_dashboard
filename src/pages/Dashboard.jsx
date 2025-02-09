@@ -33,11 +33,15 @@ const Dashboard = () => {
             // { name: "Total Reveneu", amount: data.total_revenue.toFixed(2) },
             {
               name: "Total Product Order",
-              amount: `${orderList.length} (${totalAmountOfOrder} $) `,
+              amount: `${orderList.length} (${totalAmountOfOrder?.toFixed(
+                2
+              )} $) `,
             },
             {
               name: "Total Donors",
-              amount: `${donorList.length} (${totalAmountOfDonation} $) `,
+              amount: `${donorList.length} (${totalAmountOfDonation?.toFixed(
+                2
+              )} $) `,
             },
             // { name: "Total Product Sold", amount: data.total_products_sold },
           ]}
