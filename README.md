@@ -1,4 +1,4 @@
-# MERN To-Do Board - Backend API
+# Taskflow To-Do Board - Backend API
 
 A scalable REST API built with Node.js and Express, providing comprehensive task management functionality with MongoDB integration, authentication, and real-time capabilities.
 
