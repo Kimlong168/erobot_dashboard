@@ -1,12 +1,6 @@
 # MERN To-Do Board - Backend API
 
-A robust, scalable REST API built with Node.js and Express, providing comprehensive task management functionality with MongoDB integration, authentication, and real-time capabilities.
-
-## 🚀 Live API
-
-- **Production**: [https://your-todo-api.herokuapp.com](https://your-todo-api.herokuapp.com)
-- **API Documentation**: [https://your-todo-api.herokuapp.com/api-docs](https://your-todo-api.herokuapp.com/api-docs)
-- **Health Check**: [https://your-todo-api.herokuapp.com/health](https://your-todo-api.herokuapp.com/health)
+A scalable REST API built with Node.js and Express, providing comprehensive task management functionality with MongoDB integration, authentication, and real-time capabilities.
 
 ## ✨ API Features
 
