@@ -2,6 +2,8 @@
 
 A scalable REST API built with Node.js and Express, providing comprehensive task management functionality with MongoDB integration, authentication, and real-time capabilities.
 
+[![Watch Demo](https://img.shields.io/badge/▶️%20Watch%20Demo-YouTube-red?logo=youtube)](https://youtu.be/b0YGkyuZeWY?si=KQbl3kX2MA6xTP-v)
+
 ## ✨ API Features
 
 ### 🔐 Authentication & Authorization
