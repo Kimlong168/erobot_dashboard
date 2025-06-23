@@ -19,22 +19,11 @@ A robust, scalable REST API built with Node.js and Express, providing comprehens
 
 ### 📋 Task Management
 - **Full CRUD Operations**: Create, Read, Update, Delete tasks
-- **Advanced Filtering**: Filter by status, priority, due date, user
-- **Search Functionality**: Full-text search across task fields
-- **Pagination**: Efficient data retrieval for large datasets
-- **Sorting**: Multiple sorting options (date, priority, status)
 
 ### 🗂️ Column Management
 - **Dynamic Columns**: Create custom workflow stages
 - **Column Ordering**: Reorder columns for optimal workflow
 - **Column Customization**: Rename and configure columns
-- **Default Columns**: Auto-create standard workflow columns
-
-### 🔄 Real-time Updates
-- **WebSocket Support**: Real-time task updates
-- **Event Broadcasting**: Multi-user collaboration
-- **Optimistic Updates**: Immediate UI feedback
-- **Conflict Resolution**: Handle concurrent modifications
 
 ## 🛠️ Tech Stack
 
@@ -45,11 +34,6 @@ A robust, scalable REST API built with Node.js and Express, providing comprehens
 - **JWT** - JSON Web Token authentication
 - **Bcrypt** - Password hashing library
 - **Cors** - Cross-origin resource sharing
-- **Helmet** - Security middleware
-- **Morgan** - HTTP request logger
-- **Joi** - Data validation library
-- **Socket.io** - Real-time communication
-- **Nodemailer** - Email sending capability
 
 ## 📋 Prerequisites
 
@@ -62,16 +46,16 @@ A robust, scalable REST API built with Node.js and Express, providing comprehens
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/mern-todo-backend.git
-cd mern-todo-backend
+git clone https://github.com/Kimlong168/ANB-Taskflow-Backend.git
+
+cd ANB-Taskflow-Backend
 ```
 
 ### 2. Install Dependencies
 
 ```bash
 npm install
-# or
-yarn install
+
 ```
 
 ### 3. Environment Configuration
@@ -81,382 +65,34 @@ Create a `.env` file in the root directory:
 ```env
 # Server Configuration
 NODE_ENV=development
-PORT=5000
-API_VERSION=v1
+PORT=3000
 
-# Database Configuration
-MONGODB_URI=mongodb://localhost:27017/todo-board
-# OR for MongoDB Atlas:
+# Database
 # MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/todo-board
 
 # JWT Configuration
 JWT_SECRET=your_super_secret_jwt_key_here
-JWT_EXPIRE=7d
-JWT_REFRESH_SECRET=your_refresh_token_secret
-JWT_REFRESH_EXPIRE=30d
+BLACKLIST_CLEANUP_INTERVAL= 24 * 60 * 60 * 1000
 
-# CORS Configuration
-CLIENT_URL=http://localhost:5173
-ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+# File upload
+CLOUDINARY_CLOUD_NAME = xxxxx
+CLOUDINARY_API_KEY = xxxxx
+CLOUDINARY_API_SECRET = xxxxx
 
-# Email Configuration (Optional)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-
-# Security
-BCRYPT_SALT_ROUNDS=12
-RATE_LIMIT_WINDOW_MS=900000
-RATE_LIMIT_MAX_REQUESTS=100
-
-# File Upload (Optional)
-MAX_FILE_SIZE=5242880
-UPLOAD_PATH=./uploads
-
-# Logging
-LOG_LEVEL=info
 ```
-
-### 4. Database Setup
-
-**Option 1: Local MongoDB**
-```bash
-# Start MongoDB service
-# Windows: net start MongoDB
-# macOS: brew services start mongodb-community
-# Linux: sudo systemctl start mongod
-
-# Create database and collections (automatic on first run)
-npm run seed
-```
-
-**Option 2: MongoDB Atlas**
-1. Create account at [MongoDB Atlas](https://www.mongodb.com/atlas)
-2. Create a cluster and get connection string
-3. Update `MONGODB_URI` in `.env` file
-4. Whitelist your IP address
 
 ### 5. Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
 ```
 
-Server will start on `http://localhost:5000`
+Server will start on `http://localhost:3000`
 
-## 📁 Project Structure
-
-```
-src/
-├── config/                     # Configuration files
-│   ├── database.js             # MongoDB connection setup
-│   ├── cors.js                 # CORS configuration
-│   ├── multer.js              # File upload configuration
-│   └── swagger.js             # API documentation setup
-├── controllers/                # Route controllers
-│   ├── authController.js       # Authentication logic
-│   ├── taskController.js       # Task CRUD operations
-│   ├── columnController.js     # Column management
-│   ├── userController.js       # User management
-│   └── uploadController.js     # File upload handling
-├── middleware/                 # Custom middleware
-│   ├── auth.js                # JWT authentication
-│   ├── validation.js          # Request validation
-│   ├── errorHandler.js        # Global error handling
-│   ├── rateLimit.js           # Rate limiting
-│   ├── security.js            # Security headers
-│   └── logger.js              # Request logging
-├── models/                     # Mongoose models
-│   ├── User.js                # User data model
-│   ├── Task.js                # Task data model
-│   ├── Column.js              # Column data model
-│   └── RefreshToken.js        # Refresh token model
-├── routes/                     # API routes
-│   ├── auth.js                # Authentication routes
-│   ├── tasks.js               # Task-related routes
-│   ├── columns.js             # Column-related routes
-│   ├── users.js               # User-related routes
-│   └── upload.js              # File upload routes
-├── services/                   # Business logic services
-│   ├── authService.js         # Authentication business logic
-│   ├── taskService.js         # Task business logic
-│   ├── columnService.js       # Column business logic
-│   ├── emailService.js        # Email sending service
-│   └── socketService.js       # WebSocket handling
-├── utils/                      # Utility functions
-│   ├── constants.js           # Application constants
-│   ├── helpers.js             # Helper functions
-│   ├── validators.js          # Data validation schemas
-│   ├── logger.js              # Logging utility
-│   └── apiResponse.js         # Standardized API responses
-├── tests/                      # Test files
-│   ├── unit/                  # Unit tests
-│   ├── integration/           # Integration tests
-│   └── helpers/               # Test helpers
-└── server.js                   # Application entry point
-```
-
-## 🗄️ Database Schema
-
-### User Model
-```javascript
-{
-  _id: ObjectId,
-  username: String (required, unique),
-  email: String (required, unique),
-  password: String (required, hashed),
-  firstName: String,
-  lastName: String,
-  avatar: String,
-  role: String (enum: ['user', 'admin']),
-  isActive: Boolean (default: true),
-  lastLogin: Date,
-  preferences: {
-    theme: String,
-    notifications: Boolean,
-    language: String
-  },
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Task Model
-```javascript
-{
-  _id: ObjectId,
-  title: String (required),
-  description: String,
-  priority: String (enum: ['low', 'medium', 'high']),
-  status: String (enum: ['todo', 'doing', 'done']),
-  dueDate: Date,
-  tags: [String],
-  assignedTo: ObjectId (ref: 'User'),
-  createdBy: ObjectId (ref: 'User', required),
-  columnId: ObjectId (ref: 'Column', required),
-  position: Number,
-  attachments: [{
-    filename: String,
-    originalName: String,
-    mimetype: String,
-    size: Number,
-    url: String
-  }],
-  comments: [{
-    text: String,
-    author: ObjectId (ref: 'User'),
-    createdAt: Date
-  }],
-  isArchived: Boolean (default: false),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
-
-### Column Model
-```javascript
-{
-  _id: ObjectId,
-  title: String (required),
-  description: String,
-  color: String,
-  position: Number (required),
-  isDefault: Boolean (default: false),
-  createdBy: ObjectId (ref: 'User', required),
-  taskLimit: Number,
-  isActive: Boolean (default: true),
-  createdAt: Date,
-  updatedAt: Date
-}
-```
 
 ## 🚀 API Documentation
 
 ### Base URL
 ```
-Production: https://your-todo-api.herokuapp.com/api/v1
-Development: http://localhost:5000/api/v1
+Development: http://localhost:3000/api
 ```
-
-### Authentication Endpoints
-
-#### Register User
-```http
-POST /auth/register
-
-Content-Type: application/json
-
-{
-  "username": "johndoe",
-  "email": "john@example.com",
-  "password": "SecurePass123!",
-  "firstName": "John",
-  "lastName": "Doe"
-}
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "user": {
-      "_id": "507f1f77bcf86cd799439011",
-      "username": "johndoe",
-      "email": "john@example.com",
-      "firstName": "John",
-      "lastName": "Doe"
-    },
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-  }
-}
-```
-
-#### Login User
-```http
-POST /auth/login
-
-Content-Type: application/json
-
-{
-  "email": "john@example.com",
-  "password": "SecurePass123!"
-}
-```
-
-#### Refresh Token
-```http
-POST /auth/refresh
-
-Content-Type: application/json
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-}
-```
-
-### Task Endpoints
-
-#### Get All Tasks
-```http
-GET /tasks?page=1&limit=10&status=todo&priority=high&search=project
-
-Authorization: Bearer <token>
-```
-
-**Query Parameters:**
-- `page` (number): Page number for pagination
-- `limit` (number): Number of tasks per page
-- `status` (string): Filter by task status
-- `priority` (string): Filter by priority level
-- `search` (string): Search in title and description
-- `sort` (string): Sort field (createdAt, dueDate, priority)
-- `order` (string): Sort order (asc, desc)
-
-**Response:**
-```json
-{
-  "success": true,
-  "data": {
-    "tasks": [
-      {
-        "_id": "507f1f77bcf86cd799439011",
-        "title": "Complete project documentation",
-        "description": "Write comprehensive API documentation",
-        "priority": "high",
-        "status": "doing",
-        "dueDate": "2024-06-25T00:00:00.000Z",
-        "columnId": "507f1f77bcf86cd799439012",
-        "createdBy": {
-          "_id": "507f1f77bcf86cd799439013",
-          "username": "johndoe",
-          "firstName": "John"
-        },
-        "createdAt": "2024-06-23T10:30:00.000Z",
-        "updatedAt": "2024-06-23T10:30:00.000Z"
-      }
-    ],
-    "pagination": {
-      "current": 1,
-      "pages": 3,
-      "total": 25,
-      "limit": 10
-    }
-  }
-}
-```
-
-#### Create Task
-```http
-POST /tasks
-
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "New Task",
-  "description": "Task description",
-  "priority": "medium",
-  "dueDate": "2024-06-30T00:00:00.000Z",
-  "columnId": "507f1f77bcf86cd799439012",
-  "tags": ["urgent", "frontend"]
-}
-```
-
-#### Update Task
-```http
-PUT /tasks/:id
-
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "Updated Task Title",
-  "status": "done",
-  "priority": "low"
-}
-```
-
-#### Move Task Between Columns
-```http
-PATCH /tasks/:id/move
-
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "columnId": "507f1f77bcf86cd799439014",
-  "position": 2
-}
-```
-
-#### Delete Task
-```http
-DELETE /tasks/:id
-
-Authorization: Bearer <token>
-```
-
-### Column Endpoints
-
-#### Get All Columns
-```http
-GET /columns
-
-Authorization: Bearer <token>
-```
-
-#### Create Column
-```http
-POST /columns
-
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "title": "In Review",
-  "description": "Tasks under review",
