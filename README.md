@@ -2,7 +2,7 @@
 
 A scalable REST API built with Node.js and Express, providing comprehensive task management functionality with MongoDB integration, authentication, and real-time capabilities.
 
-[![View Backend Repo](https://img.shields.io/badge/View-Backend_Repo-blue?style=for-the-badge)](https://github.com/Kimlong168/ANB-Taskflow-Backend)
+[![View Frontend Repo](https://img.shields.io/badge/View-Frontend_Repo-blue?style=for-the-badge)](https://github.com/Kimlong168/ANB-Taskflow-Client)
 
 [![Watch Demo](https://img.shields.io/badge/▶️%20Watch%20Demo-YouTube-red?logo=youtube)](https://youtu.be/b0YGkyuZeWY?si=KQbl3kX2MA6xTP-v)
 
